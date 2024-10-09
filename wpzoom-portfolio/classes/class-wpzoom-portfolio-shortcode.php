@@ -97,6 +97,11 @@ if ( ! class_exists( 'WPZOOM_Blocks_Portfolio_Shortcode' ) ) {
 			$block_portfolio = new WPZOOM_Blocks_Portfolio;
 			$block_portfolio_render = $block_portfolio->render( $shortcode_args, $content );
 
+			wp_enqueue_script( 'masonry' );
+
+			wp_enqueue_script( 'wpzoom-blocks-js-script-main' ); 
+			wp_enqueue_style( 'wpzoom-blocks-css-style-main' );
+
 			return sprintf( 
 				'<div class="wpzoom-block-portfolio-shortcode">%1$s</div>',
 				$block_portfolio_render	
@@ -134,6 +139,11 @@ if ( ! class_exists( 'WPZOOM_Blocks_Portfolio_Shortcode' ) ) {
 			foreach( $blocks as $block ) {
 				$output .= render_block( $block );
 			}
+
+			wp_enqueue_script( 'masonry' );
+
+			wp_enqueue_script( 'wpzoom-blocks-js-script-main' ); 
+			wp_enqueue_style( 'wpzoom-blocks-css-style-main' );
 
 			return sprintf( 
 				'<div class="wpzoom-portfolio-layout-shortcode-content">%1$s</div>',

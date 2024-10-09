@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.7
+ * Version:     1.4.8
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -206,6 +206,7 @@ class WPZOOM_Blocks {
 		$should_enqueue =
 		has_block( 'wpzoom-blocks/portfolio' ) ||
 		has_block( 'wpzoom-blocks/portfolio-layouts' ) ||
+		is_tax( 'portfolio' ) ||
 		WPZOOM_Portfolio_Assets_Manager::has_wpzoom_portfolio_shortcode();
 
 		if( ! $should_enqueue ) {

@@ -808,7 +808,7 @@ class WPZOOM_Blocks_Portfolio {
 			'lightbox_caption'      => false,
 			'order'                 => 'desc',
 			'order_by'              => 'date',
-			'page'                  => 1,
+			'page'                  => get_query_var( is_front_page() ? 'page' : 'paged' ) ?: 1,
 			'per_page'              => 6,
 			'read_more_label'       => esc_html__(  'Read More', 'wpzoom-portfolio' ),
 			'show_author'           => true,
@@ -937,7 +937,7 @@ class WPZOOM_Blocks_Portfolio {
 
 					if( $args[ 'lightbox' ] ) {
 						// Add the lightbox icon
-						$output .= '<a class="mfp-image portfolio-block-popup-video popup_image_icon" href="'. $post_thumbnail_url .'">';
+						$output .= '<a class="mfp-image portfolio-block-popup-video popup_image_icon" href="'. $post_thumbnail_url .'" aria-label="' . $title_attr . '">';
 						$output .= "<span class='{$class}_lightbox_icon'>
 										<svg enable-background='new 0 0 32 32' id='Layer_4' version='1.1' viewBox='0 0 32 32' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
 											<g>
