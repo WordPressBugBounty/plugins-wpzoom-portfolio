@@ -5,7 +5,7 @@ Author URI:        https://www.wpzoom.com/
 Requires at least: 5.8
 Requires PHP:      7.4
 Tested up to:      6.6
-Stable tag:        1.4.8
+Stable tag:        1.4.9
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, image gallery, post grid, gallery, video portfolio
@@ -128,6 +128,9 @@ Yes, you can find the documentation for this plugin with more instructions on ou
 
 
 == Changelog ==
+
+= 1.4.9 =
+* Minor bug fix with the category filter
 
 = 1.4.8 =
 * Minor bug fixes
