@@ -141,6 +141,7 @@ if ( ! class_exists( 'WPZOOM_Blocks_Portfolio_Shortcode' ) ) {
 			}
 
 			wp_enqueue_script( 'masonry' );
+			wp_enqueue_script('imagesloaded');
 
 			wp_enqueue_script( 'wpzoom-blocks-js-script-main' ); 
 			wp_enqueue_style( 'wpzoom-blocks-css-style-main' );
