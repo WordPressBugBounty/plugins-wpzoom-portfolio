@@ -5,12 +5,12 @@ Author URI:        https://www.wpzoom.com/
 Requires at least: 5.8
 Requires PHP:      7.4
 Tested up to:      6.7
-Stable tag:        1.4.10
+Stable tag:        1.4.11
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, image gallery, post grid, gallery, video portfolio
 
-The ultimate solution for creatives, designers, photographers, and businesses looking to showcase their work in a professional and fully customizable way
+The Ultimate WordPress Portfolio Plugin to Showcase Your Work in Style
 
 == Description ==
 
@@ -128,6 +128,9 @@ Yes, you can find the documentation for this plugin with more instructions on ou
 
 
 == Changelog ==
+
+= 1.4.11 =
+* Minor bug fix in WordPress 6.7
 
 = 1.4.10 =
 * Minor bug fix
