@@ -193,13 +193,17 @@
 	}	
 }
 
-
+.wpzoom-blocks.wpzoom-blocks_portfolio-block_view-all,
+.wpzoom-blocks_portfolio-block .wpzoom-blocks_portfolio-block_filter ul a,
+.wpzoom-blocks_portfolio-block .portfolio_item a,
 .wpzoom-blocks_portfolio-block.layout-grid .wpzoom-blocks_portfolio-block_items-list .wpzoom-blocks_portfolio-block_item.has-cover:not(.lightbox) .wpzoom-blocks_portfolio-block_item-details .wpzoom-blocks_portfolio-block_item-title a {
     pointer-events: none;
     cursor: pointer;
 }
 
 
+.wpzoom-blocks_portfolio-block .wpzoom-blocks_portfolio-block_filter ul a:hover,
+.wpzoom-blocks_portfolio-block .portfolio_item a:hover,
 .wpzoom-blocks_portfolio-block.layout-grid .wpzoom-blocks_portfolio-block_items-list .wpzoom-blocks_portfolio-block_item .wpzoom-blocks_portfolio-block_item-details .wpzoom-blocks_portfolio-block_item-title:hover {
     cursor: pointer;
 }

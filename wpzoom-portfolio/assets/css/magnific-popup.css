@@ -143,6 +143,10 @@ button::-moz-focus-inner {
   .mfp-close:active {
     top: 1px; }
 
+    .mfp-close svg {
+      pointer-events: none;
+    }
+
 .mfp-close-btn-in .mfp-close {
   color: #333; }
 
