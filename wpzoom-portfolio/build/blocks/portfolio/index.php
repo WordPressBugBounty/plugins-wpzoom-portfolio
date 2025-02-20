@@ -414,9 +414,7 @@ class WPZOOM_Blocks_Portfolio {
 		// CSS classes for the layout type and columns amount
 		$layout = isset( $attr[ 'layout' ] ) && ! empty( $attr[ 'layout' ] ) ? $attr[ 'layout' ] : 'grid';
 		$layout_class = ' layout-' . $layout;
-		$columns = isset( $attr[ 'layout' ] ) && 'list' != $attr[ 'layout' ] &&
-		           isset( $attr[ 'columnsAmount' ] ) && ! empty( $attr[ 'columnsAmount' ] ) ? ' columns-' . $attr[ 'columnsAmount' ] : '';
-
+		$columns = isset( $attr[ 'columnsAmount' ] ) && ! empty( $attr[ 'columnsAmount' ] ) ? ' columns-' . $attr[ 'columnsAmount' ] : '';
 				   // Query parameters
 		$order = isset( $attr[ 'order' ] ) ? $attr[ 'order' ] : 'desc';
 		$order_by = isset( $attr[ 'orderBy' ] ) ? $attr[ 'orderBy' ] : 'date';

@@ -432,6 +432,16 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 									selected={ layout }
 								/>
 
+                                { ( layout == 'list' ) &&
+									<RangeControl
+										label={ __( 'Amount of Columns', 'wpzoom-portfolio' ) }
+										max={ 4 }
+										min={ 1 }
+										onChange={ ( value ) => setAttributes( { columnsAmount: value } ) }
+										value={ columnsAmount }
+									/>
+								}
+
 								{ ( layout == 'grid' || layout == 'masonry' ) &&
 									<RangeControl
 										label={ __( 'Amount of Columns', 'wpzoom-portfolio' ) }
@@ -441,6 +451,8 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 										value={ columnsAmount }
 									/>
 								}
+
+
 
                                 { ( layout == 'grid' || layout == 'masonry' ) &&
 								<RangeControl

@@ -99,6 +99,7 @@ $primary_color: #0bb4aa;
             padding: 0 30px;
             display: flex;
             flex-wrap: wrap;
+            justify-content: space-between;
             gap: 2%;
         }
 
@@ -320,6 +321,20 @@ $primary_color: #0bb4aa;
     }
     &.layout-masonry .wpzoom-blocks_portfolio-block_filter {
         display: none;
+    }
+
+    &.layout-list.columns-1 .wpzoom-blocks_portfolio-block_item { 
+        flex-basis: 100%;
+    }
+    &.layout-list.columns-2 .wpzoom-blocks_portfolio-block_item { 
+        flex-basis: 49%;
+    }
+    
+    &.layout-list.columns-3 .wpzoom-blocks_portfolio-block_item { 
+        flex-basis: 32%;
+    }
+    &.layout-list.columns-4 .wpzoom-blocks_portfolio-block_item { 
+        flex-basis: 23%;
     }
 
     &.layout-grid.columns-1 .wpzoom-blocks_portfolio-block_items-list { grid-template-columns: repeat(1, 1fr); }

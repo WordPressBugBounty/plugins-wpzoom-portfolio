@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.12
+ * Version:     1.4.13
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -181,6 +181,14 @@ class WPZOOM_Blocks {
 		$options = get_option( 'wpzoom-portfolio-settings' );
 
 		wp_enqueue_script( 'wpzoom-blocks-js-index-main' ); 
+
+        wp_enqueue_script(
+            'portfolio-masonry-editor',
+            WPZOOM_PORTFOLIO_URL . 'assets/js/editor-init-masonry.js',
+            array('wp-edit-post', 'wp-dom-ready', 'masonry', 'imagesloaded'),
+            WPZOOM_PORTFOLIO_VERSION,
+            true
+        );
 
 		wp_localize_script(
 			'wpzoom-blocks-js-index-main',
@@ -474,12 +482,9 @@ function wpzoom_theme_has_portfolio() {
 		return false;
 	}
 	else {
-		if( 'inspiro' == $current_theme ) {
-			$theme = wp_get_theme();
-			if(	 'https://www.wpzoom.com/free-wordpress-themes/inspiro-lite/' == $theme->get( 'ThemeURI' ) ) {
-				return false;
-			}
-		}
+		if( 'inspiro' == $current_theme && ! class_exists( 'WPZOOM' ) ) {
+            return false;   
+        }
 	}
 
 	return true;
