@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.13
+ * Version:     1.4.14
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -482,9 +482,13 @@ function wpzoom_theme_has_portfolio() {
 		return false;
 	}
 	else {
-		if( 'inspiro' == $current_theme && ! class_exists( 'WPZOOM' ) ) {
-            return false;   
+        if( 'inspiro' == $current_theme ) {
+            $theme = wp_get_theme();
+            if(  'inspiro' == $theme->get( 'TextDomain' ) ) {
+                return false;
+            }
         }
+
 	}
 
 	return true;
