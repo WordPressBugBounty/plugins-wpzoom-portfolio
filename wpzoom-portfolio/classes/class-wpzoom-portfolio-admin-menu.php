@@ -88,7 +88,7 @@ class WPZOOM_Portfolio_Admin_Menu {
 		$page_title = esc_html__( 'WPZOOM Portfolio Settings Page', 'wpzoom-portfolio' );
 
         // Remove Add New submenu item.
-        remove_submenu_page( 'edit.php?post_type=portfolio_item', 'post-new.php?post_type=portfolio_item' );
+        // remove_submenu_page( 'edit.php?post_type=portfolio_item', 'post-new.php?post_type=portfolio_item' );
 
 		//WPZOOM Portfolio sub menu item.
 		add_submenu_page(

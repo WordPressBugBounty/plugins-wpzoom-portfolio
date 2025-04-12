@@ -137,7 +137,7 @@ if ( ! class_exists( 'WPZOOM_Portfolio_Custom_Posts' ) ) {
                     'hierarchical'        => true,
                     'labels'              => array(
                         'add_new'                  => esc_html_x( 'Add New', 'portfolio_item', 'wpzoom-portfolio' ),
-                        'add_new_item'             => esc_html__( 'Add New Portfolio Post', 'wpzoom-portfolio' ),
+                        'add_new_item'             => esc_html__( 'Add New', 'wpzoom-portfolio' ),
                         'all_items'                => esc_html__( 'Portfolio Items', 'wpzoom-portfolio' ),
                         'archives'                 => esc_html_x( 'Portfolio Archives', 'The post type archive label used in nav menus. Default "Post Archives". Added in 4.4', 'wpzoom-portfolio' ),
                         'attributes'               => esc_html__( 'Portfolio Post Attributes', 'wpzoom-portfolio' ),

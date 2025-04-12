@@ -102,12 +102,10 @@ defined( 'ABSPATH' ) || exit;
 						</span>
 					</p>
 					<div class="wpzoom_video_external_preview">
-						<?php if( has_post_thumbnail() ) { ?>
 						<div style="float: left;">
 							<img style="float: left;" src="https://www.wpzoom.com/wp-content/uploads/2023/05/vimeo.jpeg" width="400">
-							<small style="float: left; clear: both; margin-top: 10px;" class="button button-disabled">This is the Featured Image</small>
+							<small style="float: left; clear: both; margin-top: 10px;" class="button">Set as Featured Image</small>
 						</div>
-						<?php } ?>
 					</div>
 				</div>
 

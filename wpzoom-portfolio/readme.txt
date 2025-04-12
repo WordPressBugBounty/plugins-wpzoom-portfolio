@@ -4,8 +4,8 @@ Donate link:       http://paypal.me/wpzm/10usd
 Author URI:        https://www.wpzoom.com/
 Requires at least: 5.8
 Requires PHP:      7.4
-Tested up to:      6.7
-Stable tag:        1.4.14
+Tested up to:      6.8
+Stable tag:        1.4.15
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, image gallery, post grid, gallery, video portfolio
@@ -128,6 +128,9 @@ Yes, you can find the documentation for this plugin with more instructions on ou
 
 
 == Changelog ==
+
+= 1.4.15 =
+* Minor bug fix when a Child Theme is used
 
 = 1.4.14 =
 * Minor bug fix when using the Inspiro Premium theme
