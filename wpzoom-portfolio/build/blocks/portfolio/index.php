@@ -614,7 +614,7 @@ class WPZOOM_Blocks_Portfolio {
 		'}';
 
 		if( isset( $attr['postHoverTitleColor'] ) ) {
-			$post_title_hover = '.wpzoom-blocks_portfolio-block.' . $class_unique . ' .wpzoom-blocks_portfolio-block_item-details .wpzoom-blocks_portfolio-block_item-title:hover a { color:' . $attr['postHoverTitleColor'] . ' !important};';
+			$post_title_hover = '.wpzoom-blocks_portfolio-block.' . $class_unique . ' .wpzoom-blocks_portfolio-block_item-details .wpzoom-blocks_portfolio-block_item-title:hover a { color:' . $attr['postHoverTitleColor'] . ' !important;}';
 		}
 
 		//Layout styling

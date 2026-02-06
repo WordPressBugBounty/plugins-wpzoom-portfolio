@@ -2,10 +2,10 @@
 Contributors:      WPZOOM, alexus450, ciorici
 Donate link:       http://paypal.me/wpzm/10usd
 Author URI:        https://www.wpzoom.com/
-Requires at least: 5.8
+Requires at least: 6.0
 Requires PHP:      7.4
-Tested up to:      6.8
-Stable tag:        1.4.15
+Tested up to:      6.9
+Stable tag:        1.4.16
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, image gallery, post grid, gallery, video portfolio
@@ -125,9 +125,17 @@ Yes, you can find the documentation for this plugin with more instructions on ou
 == Screenshots ==
 
 1. Portfolio Block
+2. Multiple layouts
+3. Full-width layout
+4. Masonry layout
+5. Filtering effect
+6. Portfolio Block
 
 
 == Changelog ==
+
+= 1.4.16 =
+* Minor bug fix affecting Load More button styling
 
 = 1.4.15 =
 * Minor bug fix when a Child Theme is used
