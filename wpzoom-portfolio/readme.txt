@@ -2,103 +2,117 @@
 Contributors:      WPZOOM, alexus450, ciorici
 Donate link:       http://paypal.me/wpzm/10usd
 Author URI:        https://www.wpzoom.com/
-Requires at least: 6.0
+Requires at least: 6.4
 Requires PHP:      7.4
 Tested up to:      6.9
-Stable tag:        1.4.16
+Stable tag:        1.4.17
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
-Tags:              portfolio, image gallery, post grid, gallery, video portfolio
+Tags:              portfolio, gallery, projects, image gallery, video portfolio
 
-The Ultimate WordPress Portfolio Plugin to Showcase Your Work in Style
+Portfolio plugin for WordPress. Create filterable portfolio grids with masonry layouts and lightbox. Ideal for photographers, designers, agencies.
 
 == Description ==
 
-⭐️ **[WPZOOM Portfolio PRO](https://www.wpzoom.com/plugins/portfolio-pro/?utm_source=wporg&utm_medium=portfolio-free-wporg&utm_campaign=portfolio-desc-wporg)** **with 🎬 Video Integration NOW AVAILABLE!** ⭐️
+= Portfolio Gallery Plugin for WordPress =
 
-**Showcase your work in a sleek and elegant portfolio layout!**
+**The easiest way to showcase your projects in WordPress.** Create beautiful, filterable portfolio galleries with grid layouts, masonry design, and lightbox support. Perfect for photographers, designers, artists, freelancers, and agencies.
 
+[WPZOOM Portfolio](https://www.wpzoom.com/plugins/portfolio-pro/) is trusted by over 20,000 active websites. Display your work with category filtering, multiple layouts, and responsive design that looks great on all devices.
 
-WPZOOM Portfolio is the perfect tool for showcasing your work and creating beautiful, responsive, and highly customizable portfolio layouts. Whether you prefer a grid, masonry, or a simple gallery, WPZOOM Portfolio has got you covered.
+### Why Choose WPZOOM Portfolio?
 
-> Did you find this plugin helpful? Please consider [leaving a 5-star review](https://wordpress.org/support/view/plugin-reviews/wpzoom-portfolio).
-
-
-With advanced filtering and sorting options, lightbox and video support, and fully responsive and mobile-friendly design, WPZOOM Portfolio plugin is the ultimate portfolio solution for WordPress.
-
-Create and display Portfolio posts in a beautiful grid using Gutenberg blocks. Includes isotope filtering effect
-
-Works with blog posts too!
+✅ **Filterable Portfolio Gallery** - Let visitors filter projects by category with smooth isotope animations
+✅ **3 Layout Options** - Grid with overlay, masonry, and columns layouts
+✅ **Built-in Lightbox** - Showcase high-resolution images in an elegant popup
+✅ **Works Everywhere** - Use the Portfolio block, shortcodes, or embed in any page builder
+✅ **Blog Posts Support** - Display your blog posts as a portfolio grid too
+✅ **Mobile Responsive** - Portfolio galleries look perfect on all devices
 
 [**View Demo**](https://demo.wpzoom.com/inspiro-lite/portfolio/)
 
-= 🛟 How it works? =
+###💪 Want More Power? Try WPZOOM Portfolio PRO
 
-* Create Portfolio posts in the **Portfolio** section
-* Display your portfolio posts using the **Portfolio** block
-* Or you can create a new Portfolio Layout and insert it anywhere you want using shortcodes
-
-= 💡 How to create a Portfolio Layout? =
-
-* Go to **Portfolio > Portfolio Layouts** page
-* Add a Title and configure the options of the Portfolio block as you want
-* Copy the **Shortcode** from the top in the Portfolio block settings
-* Insert the Shortcode anywhere you want on your website. Or you can insert the **Portfolio Layout** block using the block editor.
-
-
-= 📌 FEATURES =
-
-* Create Portfolio Posts & Reusable Portfolio Layouts
-* Portfolio Block
-* Portfolio Layout Block & Shortcode (Insert it in any page builder: Elementor, Beaver Builder, etc)
-* Portfolio Shortcode
-* Supports **Blog posts** as well!
-* **Isotope effect** (category filter)
-* Image Lightbox
-* 3 Layouts: Grid with Overlay, Masonry & Columns
-* Different image aspect ratio
-* More features coming soon...
-
-= ⭐️ PRO FEATURES ⭐️ =
-* **🎥 Video Integration - 🆕**
-* **▶️ Video Lightbox with YouTube, Vimeo & MP4 support - 🆕**
-* **Video Background on Hover - 🆕**
-* **Portfolio Re-order - 🆕**
-* **Customize Colors - 🆕**
-* Premium Support
-* and many new features coming soon!
+Take your portfolio to the next level with [**WPZOOM Portfolio PRO**](https://www.wpzoom.com/plugins/portfolio-pro/). Add video portfolios, stunning hover effects, and complete design control.
 
 ⭐️ **[Get the PRO version!](https://www.wpzoom.com/plugins/portfolio-pro/?utm_source=wporg&utm_medium=website&utm_campaign=free_description)** ⭐️
 
+### Free Plugin Features
 
-== 📌 Recommended Themes ==
+**Portfolio Custom Post Type**
 
-This plugin works great with any theme. If you're looking for a Portfolio Theme, check out our themes:
-[**Inspiro PRO**](https://www.wpzoom.com/themes/inspiro-pro/)
-[**Inspiro Premium**](https://www.wpzoom.com/themes/inspiro/)
-[**Inspiro Lite**](https://wordpress.org/themes/inspiro/)
-[**Inspiro Blocks**](https://wordpress.org/themes/inspiro-blocks/) 🆕
-[**Inspiro Blocks PRO**](https://www.wpzoom.com/themes/inspiro-blocks-pro/) 🆕
+Create dedicated portfolio posts separate from your blog. Add titles, descriptions, featured images, and organize with categories and tags.
 
+**Filterable Portfolio Gallery**
 
-= Additional Resources =
+Let visitors filter your projects by category with smooth isotope animations. Perfect for showcasing different types of work.
 
-* [WPZOOM website](https://www.wpzoom.com)
-* [Github repository](https://github.com/wpzoom/WPZOOM-Portfolio)
+**3 Layout Options**
 
+Choose the perfect layout for your portfolio:
+- Grid with Overlay - Clean grid with hover effects
+- Masonry - Pinterest-style varied heights
+- Columns - Traditional multi-column layout
 
-= 🙌 FOLLOW US =
+**Built-in Lightbox**
 
-* 🐦 [Twitter](https://twitter.com/wpzoom)
-* 📘 [Facebook](https://facebook.com/wpzoom)
-* 📘 [Facebook Group](https://www.facebook.com/groups/wpzoom)
-* 🌄 [Instagram](https://instagram.com/wpzoom)
+Display high-resolution images in an elegant popup. Visitors can browse through your portfolio without leaving the page.
 
+**Reusable Portfolio Layouts**
 
-= 100% GDPR COMPLIANT =
+Create portfolio layouts once and embed them anywhere using shortcodes. Works with Elementor, Beaver Builder, and any page builder.
 
-This plugin is **100% GDPR compliant**. It doesn't integrate any Google Fonts.
-WPZOOM Portfolio does not collect any information outside your WordPress installation, therefore it’s **100% GDPR compliant**.
+**Multiple Thumbnail Sizes**
+
+Choose from portrait, cinema, square, or uncropped aspect ratios to match your design needs.
+
+## ⬆️ Upgrade to WPZOOM Portfolio PRO
+
+**Ready for video portfolios and advanced customization?** [WPZOOM Portfolio PRO](https://www.wpzoom.com/plugins/portfolio-pro/) adds powerful features for professional portfolios.
+
+### 🌟 PRO Features Include:
+
+**🎬 Video Portfolio Support**
+
+Showcase video projects alongside images. Full support for YouTube, Vimeo, and self-hosted MP4 videos.
+
+**▶️ Video Lightbox**
+
+Play videos in a beautiful lightbox popup. Visitors can watch your video portfolio without leaving the page.
+
+**🎥 Video Background on Hover**
+
+Create stunning hover effects with video backgrounds. Add motion to your portfolio items with Giphy or self-hosted videos.
+
+**🔀 Drag & Drop Reordering**
+
+Arrange your portfolio items in any order with simple drag and drop. No more wrestling with dates or menu order.
+
+**🎨 Color Customization**
+
+Full control over colors - customize overlay colors, text colors, and hover effects to match your brand.
+
+**Premium Support**
+
+Get priority support from our team when you need help with your portfolio.
+
+**Love WPZOOM Portfolio?** Help other WordPress users discover this plugin by [leaving a 5-star review](https://wordpress.org/support/plugin/wpzoom-portfolio/reviews/#new-post).
+
+### Recommended Themes
+
+Works great with any theme! For the best portfolio experience, check out:
+- [**Inspiro PRO**](https://www.wpzoom.com/themes/inspiro-pro/) - Professional portfolio theme
+- [**Inspiro Blocks**](https://wordpress.org/themes/inspiro-blocks/) - Free FSE theme
+
+### Additional Resources
+
+- [Plugin Documentation](https://www.wpzoom.com/documentation/wpzoom-portfolio-grid/) – Step-by-step guides
+- [WPZOOM Official Site](https://www.wpzoom.com/) – See our complete product lineup
+- [GitHub Repository](https://github.com/wpzoom/WPZOOM-Portfolio) – Contribute to development
+
+### 100% GDPR Compliant
+
+This plugin doesn't integrate any Google Fonts or collect any information outside your WordPress installation.
 
 == Installation ==
 
@@ -107,19 +121,32 @@ Simply search for the plugin name "WPZOOM Portfolio" via the **Plugins -> Add Ne
 
 == Frequently Asked Questions ==
 
-= I just installed the plugin and can't find the Portfolio blocks =
+= How do I create a portfolio in WordPress? =
 
-Make sure you haven't disabled the new block editor using the Classic Editor plugin, as these blocks work only with the new editor. **If you have the Classic Editor plugin - disable it**!
+1. Install and activate WPZOOM Portfolio
+2. Go to **Portfolio > Add New** to create portfolio items
+3. Add the **Portfolio block** to any page to display your portfolio gallery
+4. Or use the shortcode to embed your portfolio in any page builder
 
-= I'm getting a 404 error!  =
+= Can I filter portfolio items by category? =
 
-Sometimes you may see a 404 error on single portfolio pages. You can fix this easily by flushing your permalinks. Simply go to the  **Dashboard → Settings → Permalinks** and hit the “Save Changes” button on that page. This should fix the problem, as it's a known WordPress issue with Custom Post Types.
+Yes! WPZOOM Portfolio includes isotope filtering. Visitors can click category buttons to filter your portfolio gallery with smooth animations.
 
-= Is there a Documentation available? =
+= Does this portfolio plugin work with Elementor? =
 
-Yes, you can find the documentation for this plugin with more instructions on our website.
+Yes! Create a Portfolio Layout, copy the shortcode, and paste it into any Elementor page. The portfolio gallery will display perfectly.
 
-[View Documentation](https://www.wpzoom.com/documentation/wpzoom-portfolio-grid/)
+= Can I add videos to my portfolio? =
+
+The free version supports image portfolios with lightbox. [WPZOOM Portfolio PRO](https://www.wpzoom.com/plugins/portfolio-pro/) adds full video support with YouTube, Vimeo, and self-hosted videos.
+
+= I'm getting a 404 error on portfolio pages =
+
+Go to **Dashboard → Settings → Permalinks** and click "Save Changes" to flush permalinks. This fixes the common WordPress issue with custom post types.
+
+= Is there documentation available? =
+
+Yes! View the full [Plugin Documentation](https://www.wpzoom.com/documentation/wpzoom-portfolio-grid/) on our website.
 
 
 == Screenshots ==
@@ -133,6 +160,9 @@ Yes, you can find the documentation for this plugin with more instructions on ou
 
 
 == Changelog ==
+
+= 1.4.17 =
+* Minor bug fixes
 
 = 1.4.16 =
 * Minor bug fix affecting Load More button styling

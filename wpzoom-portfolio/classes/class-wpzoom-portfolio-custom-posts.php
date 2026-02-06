@@ -449,7 +449,7 @@ if ( ! class_exists( 'WPZOOM_Portfolio_Custom_Posts' ) ) {
             // Fill in the columns with meta box info associated with each post
             switch ( $column ) {
                 case 'shortcode' :
-                    echo '<input type=\'text\' size=\'28\' id=\'wpzoom-porfolio-layout-shortcode\' onClick=\'this.select();\' value=\'[wpzoom_portfolio_layout id="' . $post_id . '"]\'>';
+                    echo '<input type=\'text\' size=\'28\' id=\'wpzoom-portfolio-layout-shortcode\' onClick=\'this.select();\' value=\'[wpzoom_portfolio_layout id="' . $post_id . '"]\'>';
                 break;
             }
         }

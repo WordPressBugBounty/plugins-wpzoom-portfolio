@@ -438,7 +438,7 @@ class WPZOOM_Portfolio_Settings {
 								'args'  => array(
 									'label_for'   => 'wpzoom_portfolio_settings_show_thumbnail',
 									'class'       => 'wpzoom-pb-field',
-									'description' => esc_html__( 'Show Featured Image of the porfolio item', 'wpzoom-portfolio' ),
+									'description' => esc_html__( 'Show Featured Image of the portfolio item', 'wpzoom-portfolio' ),
 									'default'     => true,
 									'preview'     => false,
 								),
