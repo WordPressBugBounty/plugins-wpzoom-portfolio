@@ -186,22 +186,21 @@
 				};
 
 				btnLoadMore.on( 'click', function(e) {
-					
+
 					e.preventDefault();
 					var $currentCat = $this.find('.wpzoom-blocks_portfolio-block_filter .current-cat');
-					var catID = tax_filter_regex.exec( $currentCat.attr('class') );
-					tax_filter_regex.lastIndex = 0;
-	
-					var category_id = ( null == catID ) ? 'all' : catID[1];
+					var category_id = 'all';
 
-					if( undefined == category_id ) {
-						category_id = 'all';
-					}
-					if( 'all' == category_id ) {
-						portfolioData.categories = [ '-1' ];
-					}
-					else {
-						portfolioData.categories = [ category_id ];
+					// Only override categories if a specific (non-All) filter tab is selected
+					if ( $currentCat.length && !$currentCat.hasClass('cat-item-all') ) {
+						var catID = tax_filter_regex.exec( $currentCat.attr('class') );
+						tax_filter_regex.lastIndex = 0;
+
+						category_id = ( null == catID ) ? 'all' : catID[1];
+
+						if( undefined !== category_id && 'all' !== category_id ) {
+							portfolioData.categories = [ category_id ];
+						}
 					}
 
 					btnLoadMore.html( WPZoomPortfolioBlock.loadingString );

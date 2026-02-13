@@ -5,7 +5,7 @@ Author URI:        https://www.wpzoom.com/
 Requires at least: 6.4
 Requires PHP:      7.4
 Tested up to:      6.9
-Stable tag:        1.4.18
+Stable tag:        1.4.19
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, gallery, projects, image gallery, video portfolio
@@ -162,6 +162,9 @@ Yes! View the full [Plugin Documentation](https://www.wpzoom.com/documentation/w
 
 
 == Changelog ==
+
+= 1.4.19 =
+* Minor bug fixes
 
 = 1.4.18 =
 * Minor bug fixes

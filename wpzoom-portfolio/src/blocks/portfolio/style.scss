@@ -622,9 +622,18 @@ $primary_color: #0bb4aa;
 }
 
 .wpzoom-block-portfolio-taxonomy {
+	width: 100%;
+	.wp-block-wpzoom-blocks-portfolio {
+		max-width: 100%;
+		width: 100%;
+	}
 	.portfolio_item {
 		padding: 0;
 	}
+}
+
+.wpz_portfolio_wrapper {
+	width: 100%;
 }
 
 .wpz_portfolio_wrapper {
