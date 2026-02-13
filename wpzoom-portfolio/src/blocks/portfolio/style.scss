@@ -99,7 +99,8 @@ $primary_color: #0bb4aa;
             padding: 0 30px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            //justify-content: space-between;
+			justify-content: flex-start;
             gap: 2%;
         }
 
@@ -618,6 +619,20 @@ $primary_color: #0bb4aa;
 	
 	.mfp-title a:hover {
 	opacity: .8; 
+}
+
+.wpzoom-block-portfolio-taxonomy {
+	.portfolio_item {
+		padding: 0;
+	}
+}
+
+.wpz_portfolio_wrapper {
+	.page-header {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 30px;
+	}
 }
 
 

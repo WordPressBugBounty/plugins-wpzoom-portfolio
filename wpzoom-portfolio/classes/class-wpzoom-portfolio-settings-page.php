@@ -297,27 +297,7 @@ class WPZOOM_Portfolio_Settings {
 							),
 						),
 					),
-					array(
-						'id'       => 'wpzoom_section_recipe_miscellaneous',
-						'title'    => __( 'Miscellaneous', 'wpzoom-portfolio' ),
-						'page'     => 'wpzoom-portfolio-settings-general',
-						'callback' => '__return_false',
-						'fields'   => array(
-							array(
-								'id'    => 'wpzoom_portfolio_settings_sections_expanded',
-								'title' => __( 'Show Block Sections Expanded?', 'wpzoom-portfolio' ),
-								'type'  => 'checkbox',
-								'args'  => array(
-									'label_for'   => 'wpzoom_portfolio_settings_sections_expanded',
-									'class'       => 'wpzoom-pb-field',
-									'description' => esc_html__( 'Expand the portfolio block settings on initial load', 'wpzoom-portfolio' ),
-									'default'     => false,
-									'preview'     => false,
-								),
-							),
-						),
 					),
-				),
 			),
 			'portfolio-taxonomy' => array(
 				'tab_id'       => 'portfolio-taxonomy',

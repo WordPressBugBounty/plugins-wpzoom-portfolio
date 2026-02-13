@@ -155,7 +155,11 @@ class WPZOOM_Portfolio_Settings_Fields {
 	 * @return void
 	 */
 	public function select( $args ) {
+
 		$selected = self::parse_select_field( $args );
+		$option_id = str_replace( 'wpzoom_portfolio_settings_', '', $args['label_for'] );
+		$args['options'] = apply_filters( 'wpz-portfolio_select_' . $option_id, $args['options'] );
+		
 		?>
 		<fieldset class="wpzoom-pb-field-select">
 			<?php $this->create_nonce_field( $args ); ?>

@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.17
+ * Version:     1.4.18
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -194,7 +194,9 @@ class WPZOOM_Blocks {
 			'wpzoom-blocks-js-index-main',
 			'wpzoomPortfolioBlock',
 			array(
-				'setting_options' => ( !empty( $options ) ? $options : array() )
+				'setting_options' => ( !empty( $options ) ? $options : array() ),
+				'is_pro' => apply_filters( 'wpz-portfolio_is-pro', false ),
+				'plugin_url' => WPZOOM_PORTFOLIO_URL
 			)
 		);
 

@@ -68,6 +68,13 @@ WP_Block_Supports::$block_to_render['blockName'] = 'wpzoom-blocks/portfolio';
 $block_portfolio = new WPZOOM_Blocks_Portfolio;
 $block_portfolio_render = $block_portfolio->render( $atts, $content );
 
+$pro_class = 'WPZOOM\Portfolio_Pro\WPZOOM_Portfolio_Pro_Block';
+
+if( class_exists( $pro_class ) ) {
+	$block_portfolio = new $pro_class;
+	$block_portfolio_render = $block_portfolio->portfolio_render( $atts, $content );
+}
+
 ?>
 
 <?php if ( have_posts() ) : ?>

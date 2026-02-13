@@ -114,6 +114,14 @@ class WPZOOM_Blocks_Portfolio {
 			'type'    => 'boolean',
 			'default' => true
 		],
+		'showCategory' => [
+			'type'    => 'boolean',
+			'default' => true
+		],
+		'eccentricDarkMode' => [
+			'type'    => 'boolean',
+			'default' => false
+		],
 		'showReadMore' => [
 			'type'    => 'boolean',
 			'default' => true
@@ -413,6 +421,11 @@ class WPZOOM_Blocks_Portfolio {
 
 		// CSS classes for the layout type and columns amount
 		$layout = isset( $attr[ 'layout' ] ) && ! empty( $attr[ 'layout' ] ) ? $attr[ 'layout' ] : 'grid';
+
+		if( 'eccentric' === $layout ) {
+			$layout = 'grid';
+		}
+
 		$layout_class = ' layout-' . $layout;
 		$columns = isset( $attr[ 'columnsAmount' ] ) && ! empty( $attr[ 'columnsAmount' ] ) ? ' columns-' . $attr[ 'columnsAmount' ] : '';
 				   // Query parameters
@@ -437,6 +450,7 @@ class WPZOOM_Blocks_Portfolio {
 		$extra_class = isset( $attr['className'] ) ? ' ' . esc_attr( $attr['className'] ) : '';
 		$read_more_label = isset( $attr['readMoreLabel'] ) ? esc_html( $attr['readMoreLabel'] ) : esc_html__( 'Read More', 'wpzoom-portfolio' );
 		$enable_ajax_load_items = isset( $attr['enableAjaxLoading'] ) ? boolval( $attr['enableAjaxLoading'] ) : true;
+		$eccentric_dark_mode = isset( $attr['eccentricDarkMode'] ) ? boolval( $attr['eccentricDarkMode'] ) : false;
 
 		// CSS classes for query parameters
 		$post_type_class = ' post_type-' . $source;
@@ -451,6 +465,7 @@ class WPZOOM_Blocks_Portfolio {
 		$excerpt_class = $show_excerpt ? ' show-excerpt' : '';
 		$readmore_class = $show_read_more ? ' show-readmore' : '';
 		$ajax_load_class = $enable_ajax_load_items ? ' ajax-load-items' : '';
+		$dark_mode_class = $eccentric_dark_mode ? ' dark-mode' : '';
 		$category_class = '';
 
 		// Build the category filter buttons, if enabled
@@ -481,7 +496,7 @@ class WPZOOM_Blocks_Portfolio {
 		$class_css_unique = ' ' . $class_unique;
 
 		// Build a string with all the CSS classes
-		$classes = "$class$class_css_unique$lightbox$align$layout_class$columns$post_type_class$extra_class$category_class$ajax_load_class";
+		$classes = "$class$class_css_unique$lightbox$align$layout_class$columns$post_type_class$extra_class$category_class$ajax_load_class$dark_mode_class";
 
 		// Try to get portfolio items
 		$items_html = $this->items_html( array(
@@ -837,6 +852,7 @@ class WPZOOM_Blocks_Portfolio {
 
 		// Build a parameters array to use for the posts query
 		$params = array(
+			'post_status'    => 'publish',
 			'order'          => $args[ 'order' ],
 			'orderby'        => $args[ 'order_by' ],
 			'posts_per_page' => $args[ 'per_page' ],

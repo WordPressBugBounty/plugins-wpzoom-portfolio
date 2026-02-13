@@ -20,7 +20,9 @@ import {
 	TextControl, 
 	ToggleControl, 
 	TreeSelect, 
-	ColorPalette
+	ColorPalette,
+	Tooltip,
+	Popover
 } from '@wordpress/components';
 import { withSelect } from '@wordpress/data';
 import { 
@@ -60,7 +62,9 @@ import {
  * Module Constants
  */
 const {
-    setting_options
+    setting_options,
+	is_pro,
+	plugin_url
 } = wpzoomPortfolioBlock;
 
 function buildTermsTree( flatTerms ) {
@@ -140,6 +144,7 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 	example: {},
 	edit: withSelect( select => {
 		const { getEntityRecords } = select( 'core' );
+		const isPro = is_pro || false;
 
 		var cats = [];
 		var taxonomies = [];
@@ -158,14 +163,16 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 
 		return {
 			taxonomyList: taxonomies,
-			categoriesList: cats
+			categoriesList: cats,
+			isPro
 		};
 	} )( class extends Component {
 		constructor() {
 			super( ...arguments );
 
 			this.state = {
-				imageSizes: []
+				imageSizes: [],
+				showEccentricTooltip: false
 			};
 		}
 
@@ -211,12 +218,12 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 		}
 
 		render() {
-			const { attributes, setAttributes, categoriesList, taxonomyList } = this.props;
+			const { attributes, setAttributes, categoriesList, taxonomyList, isPro } = this.props;
 			const { amount, categories, columnsAmount, columnsGap, layout, lazyLoad, lightbox, style,
 					lightboxCaption, order, orderBy, readMoreLabel, showAuthor, showCategoryFilter, enableAjaxLoading, showDate,
 					showExcerpt, showReadMore, showThumbnail, showViewAll, source, thumbnailSize, viewAllLabel, viewAllLink, primaryColor, secondaryColor, filterActiveColor, filterAlignment, filterFontSize, filterFontFamily, filterTextTransform, filterLetterSpacing, filterFontWeight, postTitleFontSize, postTitleFontSizeMobile, 
 					postTitleTextTransform, postTitleLetterSpacing, postTitleFontFamily, postTitleFontWeight, postTitleLineHeight, postTitleColor, postHoverTitleColor,  btnTextColor, btnHoverTextColor, btnBgColor, btnHoverBgColor, btnFontFamily, btnFontSize, btnTextTransform, btnLetterSpacing, btnBorder, btnBorderStyle, btnBorderWidth,
-					btnBorderColor, btnHoverBorderColor, showTitle, layoutBgOpacity, layoutBgOpacityHover } = attributes;
+					btnBorderColor, btnHoverBorderColor, showTitle, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode } = attributes;
 			const { imageSizes } = this.state;
 
 			const post_type = wp.data.select( 'core/editor' ).getCurrentPostType();
@@ -236,21 +243,37 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 			const catTree   = buildTermsTree( categoriesList );
 
 			let fields = <>
-				<ToggleControl
-					label={ __( 'Show Author', 'wpzoom-portfolio' ) }
-					checked={ showAuthor }
-					onChange={ ( value ) => setAttributes( { showAuthor: value } ) }
-				/>
+				{ 'eccentric' == layout &&
+					<ToggleControl
+						label={ __( 'Show Category', 'wpzoom-portfolio' ) }
+						checked={ showCategory }
+						onChange={ ( value ) => setAttributes( { showCategory: value } ) }
+					/>
+				}
+				
+				<HorizontalRule /> 
 
-				<HorizontalRule />
+				{ 'eccentric' !== layout &&
+					<ToggleControl
+						label={ __( 'Show Author', 'wpzoom-portfolio' ) }
+						checked={ showAuthor }
+						onChange={ ( value ) => setAttributes( { showAuthor: value } ) }
+					/> 
+				}
+				{ 'eccentric' !== layout && 
+					<HorizontalRule /> 
+				}
 
-				<ToggleControl
-					label={ __( 'Show Date', 'wpzoom-portfolio' ) }
-					checked={ showDate }
-					onChange={ ( value ) => setAttributes( { showDate: value } ) }
-				/>
-
-				<HorizontalRule />
+				{ 'eccentric' !== layout &&
+					<ToggleControl
+						label={ __( 'Show Date', 'wpzoom-portfolio' ) }
+						checked={ showDate }
+						onChange={ ( value ) => setAttributes( { showDate: value } ) }
+					/>
+				}
+				{ 'eccentric' !== layout && 
+					<HorizontalRule /> 
+				}
 
 				<ToggleControl
 					label={ __( 'Show Excerpt', 'wpzoom-portfolio' ) }
@@ -275,11 +298,11 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 				}
 			</>;
 
-			if ( 'list' != layout ) {
+			if ( 'list' != layout && 'eccentric' != layout ) {
 				fields = <Disabled>{ fields }</Disabled>;
 			}
 
-			const sectionOpen = ( '1' === setting_options.wpzoom_portfolio_settings_sections_expanded ? true : false );
+			const sectionOpen = true;
 
 			let customPosts = [
 				{
@@ -420,17 +443,62 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 								}
 							</PanelBody>
 							<PanelBody icon={ layoutIcon } title={ __( 'Layout', 'wpzoom-portfolio' ) } initialOpen={ sectionOpen } className="wpzb-settings-panel">
-								<RadioControl
-									className="wpzb-button-select wpzb-button-select-icons"
-									label={ __( 'Layout Type', 'wpzoom-portfolio' ) }
-									onChange={ ( value ) => setAttributes( { layout: value } ) }
-									options={ [
-										{ value: 'list',    label: __( 'Columns', 'wpzoom-portfolio' ) },
-										{ value: 'grid',    label: __( 'Overlay', 'wpzoom-portfolio' ) },
-										{ value: 'masonry', label: __( 'Masonry', 'wpzoom-portfolio' ) }
-									] }
-									selected={ layout }
-								/>
+								<div className="wpzb-layout-options">
+									<RadioControl
+										className="wpzb-button-select wpzb-button-select-icons"
+										label={ __( 'Layout Type', 'wpzoom-portfolio' ) }
+										onChange={ ( value ) => setAttributes( { layout: value } ) }
+										options={ [
+											{ value: 'list',    label: __( 'Columns', 'wpzoom-portfolio' ) },
+											{ value: 'grid',    label: __( 'Overlay', 'wpzoom-portfolio' ) },
+											{ value: 'masonry', label: __( 'Masonry', 'wpzoom-portfolio' ) },
+											{ 
+												value: 'eccentric', 
+												label: (
+													<div 
+														className="wpzb-layout-option-eccentric"
+														onMouseEnter={() => this.setState({ showEccentricTooltip: true })}
+														onMouseLeave={() => this.setState({ showEccentricTooltip: false })}
+													>
+														<span>{ __( 'Eccentric', 'wpzoom-portfolio' ) }</span>
+														{!isPro && this.state.showEccentricTooltip && (
+															<Popover
+																className="wpzoom-preview-tooltip"
+																position="top left"
+																noArrow={false}
+																focusOnMount={false}
+																expandOnMobile={true}
+																animate={true}
+																offset={16}
+															>
+																<img 
+																	src={plugin_url + "assets/images/eccentric-preview.jpg"}
+																	alt="Eccentric Layout Preview"
+																	style={{ 
+																		width: '100%',
+																		maxWidth: '400px',
+																		height: 'auto',
+																		borderRadius: '0'
+																	}}
+																/>
+															</Popover>
+														)}
+													</div>
+												)
+											}
+										] }
+										selected={ layout }
+									/>
+								</div>
+
+								{ layout == 'eccentric' &&
+									<ToggleControl
+										label={ __( 'Dark Mode', 'wpzoom-portfolio' ) }
+										help={ __( 'Invert colors for dark backgrounds.', 'wpzoom-portfolio' ) }
+										checked={ eccentricDarkMode }
+										onChange={ ( value ) => setAttributes( { eccentricDarkMode: value } ) }
+									/>
+								}
 
                                 { ( layout == 'list' ) &&
 									<RangeControl
@@ -510,20 +578,22 @@ registerBlockType( 'wpzoom-blocks/portfolio', {
 								/>  }
 								{ fields }
 							</PanelBody>
-							<PanelBody icon={ settingsIcon } title={ __( 'Other Settings', 'wpzoom-portfolio' ) } initialOpen={ sectionOpen } className="wpzb-settings-panel">
-								<ToggleControl
-									label={ __( 'Open Portfolio Items in a Lightbox', 'wpzoom-portfolio' ) }
-									checked={ lightbox }
-									onChange={ ( value ) => setAttributes( { lightbox: value } ) }
-								/>
-								{ lightbox &&
+							{ 'eccentric' !== layout &&
+								<PanelBody icon={ settingsIcon } title={ __( 'Other Settings', 'wpzoom-portfolio' ) } initialOpen={ sectionOpen } className="wpzb-settings-panel">
 									<ToggleControl
-										label={ __( 'Show Lightbox Caption', 'wpzoom-portfolio' ) }
-										checked={ lightboxCaption }
-										onChange={ ( value ) => setAttributes( { lightboxCaption: value } ) }
+										label={ __( 'Open Portfolio Items in a Lightbox', 'wpzoom-portfolio' ) }
+										checked={ lightbox }
+										onChange={ ( value ) => setAttributes( { lightbox: value } ) }
 									/>
-								}
-							</PanelBody>
+									{ lightbox &&
+										<ToggleControl
+											label={ __( 'Show Lightbox Caption', 'wpzoom-portfolio' ) }
+											checked={ lightboxCaption }
+											onChange={ ( value ) => setAttributes( { lightboxCaption: value } ) }
+										/>
+									}
+								</PanelBody>
+							}
 					</InspectorControls>
 					<InspectorControls group="styles">
 						<PanelBody title={ __( 'Filter', 'wpzoom-portfolio' ) } initialOpen={ false } className="wpzb-settings-panel">

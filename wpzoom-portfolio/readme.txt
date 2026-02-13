@@ -5,7 +5,7 @@ Author URI:        https://www.wpzoom.com/
 Requires at least: 6.4
 Requires PHP:      7.4
 Tested up to:      6.9
-Stable tag:        1.4.17
+Stable tag:        1.4.18
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, gallery, projects, image gallery, video portfolio
@@ -101,8 +101,10 @@ Get priority support from our team when you need help with your portfolio.
 ### Recommended Themes
 
 Works great with any theme! For the best portfolio experience, check out:
-- [**Inspiro PRO**](https://www.wpzoom.com/themes/inspiro-pro/) - Professional portfolio theme
-- [**Inspiro Blocks**](https://wordpress.org/themes/inspiro-blocks/) - Free FSE theme
+[**Inspiro Premium**](https://www.wpzoom.com/themes/inspiro/)
+[**Inspiro Lite**](https://wordpress.org/themes/inspiro/)
+[**Inspiro Blocks**](https://wordpress.org/themes/inspiro-blocks/) 🆕
+[**Inspiro Blocks PRO**](https://www.wpzoom.com/themes/inspiro-blocks-pro/) 🆕
 
 ### Additional Resources
 
@@ -160,6 +162,9 @@ Yes! View the full [Plugin Documentation](https://www.wpzoom.com/documentation/w
 
 
 == Changelog ==
+
+= 1.4.18 =
+* Minor bug fixes
 
 = 1.4.17 =
 * Minor bug fixes
