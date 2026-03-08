@@ -169,56 +169,56 @@ button::-moz-focus-inner {
 
 .mfp-arrow {
   position: absolute;
-  opacity: 0.65;
+  opacity: 1;
   margin: 0;
   top: 50%;
-  margin-top: -55px;
+  margin-top: -32px;
   padding: 0;
-  width: 90px;
-  height: 110px;
-  -webkit-tap-highlight-color: transparent; }
+  width: 64px;
+  height: 64px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.35);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  -webkit-tap-highlight-color: transparent;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease; }
   .mfp-arrow:active {
-    margin-top: -54px; }
+    transform: scale(0.97); }
   .mfp-arrow:hover,
   .mfp-arrow:focus {
-    opacity: 1; }
+    border-color: rgba(255, 255, 255, 0.7); }
   .mfp-arrow:before,
   .mfp-arrow:after {
     content: '';
     display: block;
-    width: 0;
-    height: 0;
+    width: 13px;
+    height: 13px;
     position: absolute;
-    left: 0;
-    top: 0;
-    margin-top: 35px;
-    margin-left: 35px;
-    border: medium inset transparent; }
+    left: 50%;
+    top: 50%; }
   .mfp-arrow:after {
-    border-top-width: 13px;
-    border-bottom-width: 13px;
-    top: 8px; }
+    margin: -6.5px 0 0 -6.5px;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-left: none;
+    border-top: none; }
   .mfp-arrow:before {
-    border-top-width: 21px;
-    border-bottom-width: 21px;
-    opacity: 0.7; }
+    display: none; }
 
 .mfp-arrow-left {
-  left: 0; }
+  left: 24px; }
   .mfp-arrow-left:after {
-    border-right: 17px solid #FFF;
-    margin-left: 31px; }
+    transform: rotate(135deg); }
   .mfp-arrow-left:before {
-    margin-left: 25px;
-    border-right: 27px solid #3F3F3F; }
+    display: none; }
 
 .mfp-arrow-right {
-  right: 0; }
+  right: 24px; }
   .mfp-arrow-right:after {
-    border-left: 17px solid #FFF;
-    margin-left: 39px; }
+    transform: rotate(-45deg); }
   .mfp-arrow-right:before {
-    border-left: 27px solid #3F3F3F; }
+    display: none; }
 
 .mfp-iframe-holder {
   padding-top: 40px;
@@ -346,14 +346,13 @@ img.mfp-img {
 
 @media all and (max-width: 900px) {
   .mfp-arrow {
-    -webkit-transform: scale(0.75);
-    transform: scale(0.75); }
+    width: 44px;
+    height: 44px;
+    margin-top: -22px; }
   .mfp-arrow-left {
-    -webkit-transform-origin: 0;
-    transform-origin: 0; }
+    left: 10px; }
   .mfp-arrow-right {
-    -webkit-transform-origin: 100%;
-    transform-origin: 100%; }
+    right: 10px; }
   .mfp-container {
     padding-left: 6px;
     padding-right: 6px; } }
