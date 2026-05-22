@@ -945,8 +945,18 @@ class WPZOOM_Blocks_Portfolio {
 				}
 
 
+				// Allow add-ons (e.g. the Inspiro Premium theme) to add a class to
+				// the item wrapper — used to flag items that carry a hover-play
+				// background video. Returns '' by default, so nothing changes for
+				// setups without such an add-on.
+				$hover_item_class = apply_filters( 'wpzoom_portfolio_block_item_class', '', $id, $args );
+
 				// Add a wrapper article around the entire portfolio item (including the thumbnail)
-				$output .= "<article class='{$class}_item-wrap portfolio_item'>";
+				$output .= "<article class='{$class}_item-wrap portfolio_item{$hover_item_class}'>";
+
+				// Allow add-ons to inject extra media (e.g. a video-background-on-hover
+				// element) as the first child of the item. Returns '' by default.
+				$output .= apply_filters( 'wpzoom_portfolio_block_item_media', '', $id, $args );
 
 				// If the video should be shown...
 				if ( $args[ 'show_background_video' ] && ! empty( $video ) ) {
