@@ -339,18 +339,27 @@ class WPZOOM_Blocks_Portfolio {
 
 	}
 
-	public function load_more_items() { 
-		
+	public function load_more_items() {
+
 		$output = '';
 
-		$offset      = isset( $_POST['offset'] ) ? sanitize_text_field( $_POST['offset'] ) : 0;
-		$exclude	 = isset( $_POST['exclude'] ) ?  array_map( 'intval', $_POST['exclude'] ) : array();
-		$current_cat = isset( $_POST['current_cat'] ) && ! empty( $_POST['current_cat'] ) ? sanitize_text_field( $_POST['current_cat'] ) : array();
-		
-		$data    = sanitize_text_field( $_POST['posts_data'] );
-		$data    = json_decode( stripslashes( $data ), true );
+		$offset      = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) : 0;
+		$exclude	 = isset( $_POST['exclude'] ) ?  array_map( 'intval', (array) $_POST['exclude'] ) : array();
+		$current_cat = isset( $_POST['current_cat'] ) && ! empty( $_POST['current_cat'] ) ? absint( $_POST['current_cat'] ) : 0;
 
-		unset( $data['total'] );
+		$data    = isset( $_POST['posts_data'] ) ? sanitize_text_field( wp_unslash( $_POST['posts_data'] ) ) : '';
+		$data    = json_decode( $data, true );
+
+		// Always discard any client-supplied values that are concatenated into
+		// HTML attributes by items_html(). The legitimate value is fixed in the
+		// caller, so we let the default in items_html() take over.
+		// This prevents reflected XSS via the `class` key (CVE: load_more
+		// reflected XSS through posts_data.class).
+		if ( is_array( $data ) ) {
+			unset( $data['total'], $data['class'] );
+		} else {
+			$data = array();
+		}
 
 		if( ! empty( $offset ) ) {
 			$data['offset'] = $offset;
@@ -855,8 +864,14 @@ class WPZOOM_Blocks_Portfolio {
 		// The final HTML string value
 		$output = '';
 
-		// The CSS class name with a prefix
-		$class = $args[ 'class' ];
+		// The CSS class name with a prefix.
+		// Restrict to CSS-class-safe characters so it cannot break out of the
+		// single-quoted HTML attributes it is concatenated into below. If the
+		// supplied value contains anything unexpected (e.g. quotes or spaces),
+		// fall back to the documented default.
+		$class = isset( $args[ 'class' ] ) && is_string( $args[ 'class' ] ) && preg_match( '/^[A-Za-z0-9_\-]+$/', $args[ 'class' ] )
+			? $args[ 'class' ]
+			: $defaults[ 'class' ];
 
 		// The source of the posts
 		$source = $args[ 'source' ];

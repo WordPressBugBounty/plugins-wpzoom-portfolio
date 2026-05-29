@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.21
+ * Version:     1.4.22
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -176,19 +176,9 @@ class WPZOOM_Blocks {
 	 */
 	public function enqueue_portfolio_block_editor_assets() {
 
-		wp_enqueue_script( 'masonry' );
-
 		$options = get_option( 'wpzoom-portfolio-settings' );
 
-		wp_enqueue_script( 'wpzoom-blocks-js-index-main' ); 
-
-        wp_enqueue_script(
-            'portfolio-masonry-editor',
-            WPZOOM_PORTFOLIO_URL . 'assets/js/editor-init-masonry.js',
-            array('wp-data', 'wp-dom-ready', 'masonry', 'imagesloaded'),
-            WPZOOM_PORTFOLIO_VERSION,
-            true
-        );
+		wp_enqueue_script( 'wpzoom-blocks-js-index-main' );
 
 		wp_localize_script(
 			'wpzoom-blocks-js-index-main',
@@ -212,6 +202,26 @@ class WPZOOM_Blocks {
 	 * @since  1.0.0
 	 */
 	public function enqueue_portfolio_block_assets() {
+
+		// In the block editor we enqueue the masonry-init script via this
+		// hook (and not enqueue_block_editor_assets) so it lands *inside*
+		// the editor canvas iframe used by block themes / WP 6.3+. Scripts
+		// enqueued via enqueue_block_editor_assets stay in the parent window
+		// and never see the canvas DOM, which is why masonry blocks didn't
+		// lay out correctly in the editor.
+		if ( is_admin() ) {
+			wp_enqueue_script( 'masonry' );
+			wp_enqueue_script( 'imagesloaded' );
+			wp_enqueue_script(
+				'portfolio-masonry-editor',
+				WPZOOM_PORTFOLIO_URL . 'assets/js/editor-init-masonry.js',
+				array( 'masonry', 'imagesloaded' ),
+				WPZOOM_PORTFOLIO_VERSION,
+				true
+			);
+			wp_enqueue_style( 'wpzoom-blocks-css-style-portfolio' );
+			return;
+		}
 
 		$should_enqueue =
 		has_block( 'wpzoom-blocks/portfolio' ) ||
