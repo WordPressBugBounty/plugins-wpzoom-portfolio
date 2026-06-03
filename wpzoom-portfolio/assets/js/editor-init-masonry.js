@@ -70,11 +70,42 @@
 		applyMasonry();
 
 		var debounceTimer = null;
-		wpData.subscribe( function () {
-			// Debounce: only re-run after the editor settles for ~150ms.
-			clearTimeout( debounceTimer );
-			debounceTimer = setTimeout( applyMasonry, 150 );
+		var unsubscribe = null;
+
+		function teardown() {
+			if ( typeof unsubscribe === 'function' ) {
+				try { unsubscribe(); } catch ( e ) {}
+				unsubscribe = null;
+			}
+			try { clearTimeout( debounceTimer ); } catch ( e ) {}
+		}
+
+		unsubscribe = wpData.subscribe( function () {
+			try {
+				// Debounce: only re-run after the editor settles for ~150ms.
+				clearTimeout( debounceTimer );
+				debounceTimer = setTimeout( applyMasonry, 150 );
+			} catch ( e ) {
+				// Firefox throws NS_ERROR_NOT_INITIALIZED when the iframe
+				// window has been torn down (e.g. the user switched from
+				// Visual to Code editor) and the parent's wp.data fires
+				// another tick. Unsubscribe so we don't keep crashing.
+				// Chrome silently no-ops on dead-window method calls, which
+				// is why this only reproduces in Firefox.
+				teardown();
+			}
 		} );
+
+		// Proactively unsubscribe when the iframe is destroyed. pagehide is
+		// more reliable than unload across browsers for iframe lifecycles.
+		if ( window.addEventListener ) {
+			try {
+				window.addEventListener( 'pagehide', teardown, { once: true } );
+			} catch ( e ) {
+				// Some older engines reject the options object; fall back.
+				window.addEventListener( 'pagehide', teardown );
+			}
+		}
 	}
 
 	// Try immediately, then poll for up to ~10 seconds while the parent's
