@@ -170,7 +170,7 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 			lightboxCaption, order, orderBy, readMoreLabel, showAuthor, showCategoryFilter, enableAjaxLoading, showDate,
 			showExcerpt, showReadMore, showThumbnail, showViewAll, source, thumbnailSize, viewAllLabel, viewAllLink, primaryColor, secondaryColor, filterActiveColor, filterAlignment, filterFontSize, filterFontFamily, filterTextTransform, filterLetterSpacing, filterFontWeight, postTitleFontSize, postTitleFontSizeMobile,
 			postTitleTextTransform, postTitleLetterSpacing, postTitleFontFamily, postTitleFontWeight, postTitleLineHeight, postTitleColor, postHoverTitleColor, btnTextColor, btnHoverTextColor, btnBgColor, btnHoverBgColor, btnFontFamily, btnFontSize, btnTextTransform, btnLetterSpacing, btnBorder, btnBorderStyle, btnBorderWidth,
-			btnBorderColor, btnHoverBorderColor, showTitle, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode } = attributes;
+			btnBorderColor, btnHoverBorderColor, btnBorderRadius, itemBorderRadius, showTitle, hideTitleOnHover, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode } = attributes;
 
 	const post_type = wp.data.select( 'core/editor' ).getCurrentPostType();
 	const post_id   = wp.data.select( 'core/editor' ).getCurrentPost().id;
@@ -476,6 +476,17 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 							/>
 						}
 
+						{ ( layout == 'grid' || layout == 'masonry' ) &&
+							<RangeControl
+								label={ __( 'Item Border Radius', 'wpzoom-portfolio' ) }
+								help={ __( 'Rounds the corners of portfolio items in the grid (overlay) and masonry layouts.', 'wpzoom-portfolio' ) }
+								max={ 100 }
+								min={ 0 }
+								onChange={ ( value ) => setAttributes( { itemBorderRadius: value } ) }
+								value={ itemBorderRadius }
+							/>
+						}
+
 						<ToggleControl
 							label={ __( 'Show View All Button', 'wpzoom-portfolio' ) }
 							checked={ showViewAll }
@@ -520,6 +531,12 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 							label={ __( 'Show Title', 'wpzoom-portfolio' ) }
 							checked={ showTitle }
 							onChange={ ( value ) => setAttributes( { showTitle: value } ) }
+						/> }
+						{ ( layout == 'grid' || layout == 'masonry' ) && showTitle && <ToggleControl
+							label={ __( 'Hide Title on Hover', 'wpzoom-portfolio' ) }
+							help={ __( 'Reveal the clean image (or hover video) by fading the title overlay out on hover.', 'wpzoom-portfolio' ) }
+							checked={ hideTitleOnHover }
+							onChange={ ( value ) => setAttributes( { hideTitleOnHover: value } ) }
 						/> }
 						{ fields }
 					</PanelBody>
@@ -608,6 +625,7 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 				<PanelBody title={ __( 'Layout', 'wpzoom-portfolio' ) } initialOpen={ false } className="wpzb-settings-panel">
 					<RangeControl
 						label={ __( 'Background Opacity (Normal)', 'wpzoom-portfolio' ) }
+						help={ __( 'Only takes visible effect when "Show Title" is enabled — otherwise the overlay is hidden by default and only appears on hover.', 'wpzoom-portfolio' ) }
 						value={ layoutBgOpacity }
 						onChange={ ( value ) => setAttributes( { layoutBgOpacity: value } ) }
 						step={ 0.1 }
@@ -752,6 +770,14 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 						min={ -2 }
 						max={ 6 }
 						step={ 0.1 }
+					/>
+					<RangeControl
+						label={ __( 'Border Radius', 'wpzoom-portfolio' ) }
+						help={ __( 'Rounds the corners of the Load More and View All buttons.', 'wpzoom-portfolio' ) }
+						value={ btnBorderRadius }
+						onChange={ ( value ) => setAttributes( { btnBorderRadius: value } ) }
+						min={ 0 }
+						max={ 100 }
 					/>
 					<ToggleControl
 						label={ __( 'Border?', 'wpzoom-portfolio' ) }

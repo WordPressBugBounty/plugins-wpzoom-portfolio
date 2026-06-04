@@ -5,7 +5,7 @@ Author URI:        https://www.wpzoom.com/
 Requires at least: 6.5
 Requires PHP:      7.4
 Tested up to:      7.0
-Stable tag:        1.4.23
+Stable tag:        1.4.24
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, gallery, projects, image gallery, video portfolio
@@ -162,6 +162,11 @@ Yes! View the full [Plugin Documentation](https://www.wpzoom.com/documentation/w
 
 
 == Changelog ==
+
+= 1.4.24 =
+* New: "Hide Title on Hover" option (Portfolio block → Fields panel, visible when "Show Title" is on for grid or masonry layouts) — fades the title overlay out on hover to reveal the clean image (or hover video).
+* New: "Item Border Radius" option (Portfolio block → Content Settings) — rounds the corners of items in the grid (overlay) and masonry layouts.
+* New: "Border Radius" option for the Load More / View All buttons (Portfolio block → Buttons panel).
 
 = 1.4.23 =
 * Fixed an error in Firefox
