@@ -136,20 +136,49 @@
 
 		//Apply Masonry
 		let container = document.getElementsByClassName('wpzoom-blocks_portfolio-block');
-		[].forEach.call(container, function(el) {					
+		[].forEach.call(container, function(el) {
 			if( el.classList.contains( 'layout-masonry' ) ) {
 				var elem = el.querySelector('.wpzoom-blocks_portfolio-block_items-list');
 				var msnry = new Masonry( elem, {
 					// options
 					itemSelector: '.wpzoom-blocks_portfolio-block_item',
+					// percentPosition lets Masonry reflow when the items'
+					// CSS width changes via responsive media queries — the
+					// default (false) caches a pixel column-width at init
+					// time and items keep their original left positions
+					// even after a window resize that triggers new CSS
+					// widths.
+					percentPosition: true,
 				});
-	
+
 				// element
 				imagesLoaded( el ).on( 'progress', function() {
 					msnry.layout();
 				});
 			}
 		});
+
+		// Debounced window resize handler: Masonry's own resize listener
+		// recomputes layout but doesn't always re-measure column widths
+		// when items grow/shrink via @media. Force a clean recalc by
+		// destroying and recreating each instance on resize.
+		var __wpzMasonryResizeTimer;
+		window.addEventListener('resize', function () {
+			clearTimeout( __wpzMasonryResizeTimer );
+			__wpzMasonryResizeTimer = setTimeout( function () {
+				var lists = document.querySelectorAll( '.wpzoom-blocks_portfolio-block.layout-masonry .wpzoom-blocks_portfolio-block_items-list' );
+				[].forEach.call( lists, function ( list ) {
+					try {
+						var existing = ( window.Masonry && window.Masonry.data ) ? window.Masonry.data( list ) : null;
+						if ( existing && existing.destroy ) { existing.destroy(); }
+						new Masonry( list, {
+							itemSelector: '.wpzoom-blocks_portfolio-block_item',
+							percentPosition: true,
+						} );
+					} catch ( e ) {}
+				} );
+			}, 180 );
+		} );
 
 		initPortfolio();
 
@@ -240,14 +269,15 @@
 								};
 	
 								let container = document.getElementsByClassName('wpzoom-blocks_portfolio-block');
-								[].forEach.call(container, function(el) {					
+								[].forEach.call(container, function(el) {
 									if( el.classList.contains( 'layout-masonry' ) ) {
 										var elem = el.querySelector('.wpzoom-blocks_portfolio-block_items-list');
 										var msnry = new Masonry( elem, {
 											// options
 											itemSelector: '.wpzoom-blocks_portfolio-block_item',
+											percentPosition: true,
 										});
-							
+
 										// element
 										imagesLoaded( el ).on( 'progress', function() {
 											msnry.layout();
@@ -539,14 +569,15 @@
 					}
 
 					let container = document.getElementsByClassName('wpzoom-blocks_portfolio-block');
-					[].forEach.call(container, function(el) {					
+					[].forEach.call(container, function(el) {
 						if( el.classList.contains( 'layout-masonry' ) ) {
 							var elem = el.querySelector('.wpzoom-blocks_portfolio-block_items-list');
 							var msnry = new Masonry( elem, {
 								// options
 								itemSelector: '.wpzoom-blocks_portfolio-block_item',
+								percentPosition: true,
 							});
-				
+
 							// element
 							imagesLoaded( el ).on( 'progress', function() {
 								msnry.layout();

@@ -789,6 +789,28 @@ class WPZOOM_Blocks_Portfolio {
 
 		$masonry_columns_gap = isset( $attr[ 'columnsGap' ] ) && ( 0 !== $attr[ 'columnsGap' ] ) ? $masonry_selectors : '';
 
+		// Responsive masonry overrides — tablet 2 cols, mobile 1 col.
+		// Has to be emitted from PHP (not the static SCSS) because the
+		// per-column width and the columnsGap margin come baked into one
+		// rule from this same renderer. A blanket `width: 50%` in SCSS
+		// at this breakpoint doesn't reset the margin, so Masonry sees
+		// outerWidth = 50% + gap, and only one column fits. Using calc()
+		// with the actual gap keeps the gutter while letting 2 / 1
+		// columns fit properly. Scoped to this block via $class_unique.
+		$masonry_responsive_css = '';
+		if ( 'masonry' === $layout ) {
+			$gap = isset( $attr['columnsGap'] ) ? intval( $attr['columnsGap'] ) : 0;
+			$unique_selector = '.wpzoom-blocks_portfolio-block.' . $class_unique . '.layout-masonry .wpzoom-blocks_portfolio-block_items-list .wpzoom-blocks_portfolio-block_item';
+			// !important is required because the default columnsGap rule
+			// emitted further up the chain uses `.columns-<N>` in its
+			// selector (6 classes), while this @media override only
+			// matches 5 classes — without !important, the default rule's
+			// higher specificity wins inside the @media context too and
+			// the tablet/mobile widths never apply.
+			$masonry_responsive_css .= '@media (max-width: 1024px){' . $unique_selector . '{width:calc(50% - ' . $gap . 'px) !important;}}';
+			$masonry_responsive_css .= '@media (max-width: 600px){' . $unique_selector . '{width:100% !important;margin-right:0 !important;}}';
+		}
+
 		$css = sprintf(
 			'<style>%s</style>',
 			$general_style .
@@ -803,6 +825,7 @@ class WPZOOM_Blocks_Portfolio {
             $button_color_hover .
 			$columns_gap .
 			$masonry_columns_gap .
+			$masonry_responsive_css .
 			$item_border_radius .
 			$layout_style .
 			$mobile_style

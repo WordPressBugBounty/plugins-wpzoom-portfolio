@@ -307,11 +307,21 @@ $primary_color: #0bb4aa;
                 }
 
                 .wpzoom-blocks_portfolio-block_item-details {
-                    
+
                     opacity: 0;
 
                     &.show-title {
                         opacity:1;
+                    }
+
+                    // Touch devices have no hover, so "Show Title OFF"
+                    // would otherwise leave mobile users with no clue
+                    // what each card is. Force the title overlay
+                    // visible at narrow viewports regardless of the
+                    // Show Title setting — same visual cue desktop
+                    // users get on hover, baked in for mobile.
+                    @media (max-width: 1024px) {
+                        opacity: 1;
                     }
 
                     .wpzoom-blocks_portfolio-block_item-title {
