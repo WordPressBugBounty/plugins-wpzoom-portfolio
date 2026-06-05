@@ -170,7 +170,7 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 			lightboxCaption, order, orderBy, readMoreLabel, showAuthor, showCategoryFilter, enableAjaxLoading, showDate,
 			showExcerpt, showReadMore, showThumbnail, showViewAll, source, thumbnailSize, viewAllLabel, viewAllLink, primaryColor, secondaryColor, filterActiveColor, filterAlignment, filterFontSize, filterFontFamily, filterTextTransform, filterLetterSpacing, filterFontWeight, postTitleFontSize, postTitleFontSizeMobile,
 			postTitleTextTransform, postTitleLetterSpacing, postTitleFontFamily, postTitleFontWeight, postTitleLineHeight, postTitleColor, postHoverTitleColor, btnTextColor, btnHoverTextColor, btnBgColor, btnHoverBgColor, btnFontFamily, btnFontSize, btnTextTransform, btnLetterSpacing, btnBorder, btnBorderStyle, btnBorderWidth,
-			btnBorderColor, btnHoverBorderColor, btnBorderRadius, itemBorderRadius, showTitle, hideTitleOnHover, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode } = attributes;
+			btnBorderColor, btnHoverBorderColor, btnBorderRadius, itemBorderRadius, showTitle, hideTitleOnHover, alwaysPlayBackgroundVideo, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode } = attributes;
 
 	const post_type = wp.data.select( 'core/editor' ).getCurrentPostType();
 	const post_id   = wp.data.select( 'core/editor' ).getCurrentPost().id;
@@ -537,6 +537,12 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 							help={ __( 'Reveal the clean image (or hover video) by fading the title overlay out on hover.', 'wpzoom-portfolio' ) }
 							checked={ hideTitleOnHover }
 							onChange={ ( value ) => setAttributes( { hideTitleOnHover: value } ) }
+						/> }
+						{ isPro && ( layout == 'grid' || layout == 'masonry' ) && <ToggleControl
+							label={ __( 'Always Play Video Background', 'wpzoom-portfolio' ) }
+							help={ __( 'Autoplay the hover-video on every item right away, instead of waiting for the visitor to hover. Mirrors the Inspiro theme’s portfolio behaviour. Requires items configured with a background video.', 'wpzoom-portfolio' ) }
+							checked={ alwaysPlayBackgroundVideo }
+							onChange={ ( value ) => setAttributes( { alwaysPlayBackgroundVideo: value } ) }
 						/> }
 						{ fields }
 					</PanelBody>

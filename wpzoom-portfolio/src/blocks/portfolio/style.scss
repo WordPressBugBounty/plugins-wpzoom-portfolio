@@ -246,30 +246,46 @@ $primary_color: #0bb4aa;
                 background: rgba(0, 0, 0, 0.1);
                 transition: all 0.2s;
 
+                // Flex-center the title overlay. Replaces the older
+                // top:50% + translateY(-50%) trick which centred the
+                // title's baseline but broke on long wrapping titles —
+                // the visual centre would drift downward as lines were
+                // added because the H3 grew from the top.
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 20px;
+                box-sizing: border-box;
+                gap: 8px;
 
                 .wpzoom-blocks_portfolio-block_item-title {
                     display: block;
                     font-size: 1.5em;
                     line-height: 1.4;
 
-                    position: relative;
-                    transform: translate(0,-50%);
-                    top: 50%;
+                    // No more absolute trickery — flex parent handles
+                    // centering and length variation. transition is
+                    // declared so the hover nudge (see further down)
+                    // animates smoothly.
+                    position: static;
+                    top: auto;
+                    transform: none;
 
-                    width: 100%;
+                    width: auto;
+                    max-width: 100%;
                     padding: 0;
                     margin: 0;
+                    transition: transform 0.3s ease;
 
                     a {
-                        display: flex;
+                        display: inline-block;
                         text-align: center;
                         text-decoration: none;
-                        align-items: center;
-                        justify-content: center;
-                        height: 100%;
-                        width: 100%;
-                        padding: 20px;
+                        padding: 0;
                         margin: 0;
+                        line-height: 1.4;
 
                         &:hover {
                             opacity: .8;

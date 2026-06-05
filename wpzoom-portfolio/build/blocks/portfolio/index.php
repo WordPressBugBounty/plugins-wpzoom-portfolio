@@ -234,8 +234,8 @@ class WPZOOM_Blocks_Portfolio {
 		], 
 		'postTitleLetterSpacing' => [
 			'type' => 'number',
-			'default' => 1
-		], 
+			'default' => 0
+		],
 		'postTitleFontFamily' => [
 			'type' => 'string',
 		],
