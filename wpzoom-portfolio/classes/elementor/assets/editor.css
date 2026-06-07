@@ -1,0 +1,15 @@
+/**
+ * Elementor editor tweaks for WPZOOM Portfolio.
+ *
+ * Float the "WPZOOM Portfolio" widget category to the top of the panel.
+ * The categories list is turned into a flex column so an explicit order
+ * can be applied; the WPZOOM category gets a negative order to lead.
+ */
+#elementor-panel-categories {
+	display: flex;
+	flex-direction: column;
+}
+
+#elementor-panel-category-wpzoom-portfolio {
+	order: -1;
+}

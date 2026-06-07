@@ -58,7 +58,7 @@ if ( ! class_exists( 'WPZOOM_Portfolio_Assets_Manager' ) ) {
 		}
 
 		public function enqueue_frontend_styles() {
-		
+
 			$should_enqueue =
 				has_block( 'wpzoom-blocks/portfolio' ) ||
 				has_block( 'wpzoom-blocks/portfolio-layouts' ) ||
@@ -69,36 +69,54 @@ if ( ! class_exists( 'WPZOOM_Portfolio_Assets_Manager' ) ) {
 				return;
 			}
 
-			wp_enqueue_style( 
-				'magnificPopup', 
-				WPZOOM_PORTFOLIO_URL . 'assets/css/magnific-popup.css', 
-				array(), 
+			$this->enqueue_portfolio_assets();
+
+		}
+
+		/**
+		 * Enqueue the portfolio frontend assets (lightbox + the script that
+		 * powers category filtering, masonry layout and AJAX "Load More").
+		 *
+		 * Kept public and separate from the content-detection gate in
+		 * enqueue_frontend_styles() so render paths that can't be detected via
+		 * post content — e.g. the Elementor "Portfolio Layout" widget, where the
+		 * shortcode is generated at render time — can force the assets to load.
+		 *
+		 * @since  1.4.27
+		 * @return void
+		 */
+		public function enqueue_portfolio_assets() {
+
+			wp_enqueue_style(
+				'magnificPopup',
+				WPZOOM_PORTFOLIO_URL . 'assets/css/magnific-popup.css',
+				array(),
 				WPZOOM_PORTFOLIO_VERSION
 			);
 
-			wp_enqueue_script( 
-				'magnificPopup', 
-				WPZOOM_PORTFOLIO_URL . 'assets/js/jquery.magnific-popup.min.js', 
-				array( 'jquery' ), 
+			wp_enqueue_script(
+				'magnificPopup',
+				WPZOOM_PORTFOLIO_URL . 'assets/js/jquery.magnific-popup.min.js',
+				array( 'jquery' ),
 				WPZOOM_PORTFOLIO_VERSION,
-				true 
+				true
 			);
 
-			wp_enqueue_script( 
+			wp_enqueue_script(
 				'wpzoom-portfolio-block',
 				WPZOOM_PORTFOLIO_URL . 'assets/js/wpzoom-portfolio.js',
-				array( 'jquery', 'wp-util' ), 
+				array( 'jquery', 'wp-util' ),
 				WPZOOM_PORTFOLIO_VERSION,
-				true 
+				true
 			);
 
-			wp_localize_script( 
+			wp_localize_script(
 				'wpzoom-portfolio-block',
-				'WPZoomPortfolioBlock', 
+				'WPZoomPortfolioBlock',
 				array(
 					'ajaxURL'       => admin_url( 'admin-ajax.php' ),
 					'loadingString' => esc_html__( 'Loading...', 'wpzoom-portfolio' )
-				) 
+				)
 			);
 
 		}

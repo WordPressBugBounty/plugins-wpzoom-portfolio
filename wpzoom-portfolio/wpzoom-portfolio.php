@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.26
+ * Version:     1.4.27
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -156,8 +156,11 @@ class WPZOOM_Blocks {
 			// Hook into the REST API in order to add some custom things
 			add_action( 'rest_api_init', array( $this, 'rest_api_routes' ) );
 
-			// Add some extra needed styles on the frontend
-			add_action( 'wp_enqueue_scripts', function() { wp_enqueue_script( 'jquery' ); wp_enqueue_style( 'dashicons' ); } );
+			// Add some extra needed scripts on the frontend.
+			// Note: the Dashicons font is intentionally NOT enqueued here anymore.
+			// The only frontend use was the author/date meta icons, which are now
+			// rendered as inline-SVG CSS masks in the portfolio block stylesheet.
+			add_action( 'wp_enqueue_scripts', function() { wp_enqueue_script( 'jquery' ); } );
 
 			// Mark the plugin as initialized
 			$this->initialized = true;
@@ -523,6 +526,9 @@ if( ! function_exists( 'wpzoom_portfolio_load_files' ) ) {
 		//Load Settings Panel
 		require_once 'classes/class-wpzoom-settings-fields.php';
 		require_once 'classes/class-wpzoom-portfolio-settings-page.php';
+
+		//Load Elementor integration (hooks stay inert when Elementor is not active)
+		require_once 'classes/elementor/class-wpzoom-portfolio-elementor.php';
 	
 		if( ! wpzoom_theme_has_portfolio() ) {
 			//Load Archive template

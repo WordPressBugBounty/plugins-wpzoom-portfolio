@@ -513,27 +513,11 @@ $primary_color: #0bb4aa;
                         opacity: 0.5;
                     }
 
-                    a::before {
-                        content: '';
-                        display: inline-block;
-                        font-family: 'dashicons';
-                        vertical-align: middle;
-                        padding: 0;
-                        margin: 0 0.3em 0 0;
-                    }
-
                     a:hover, a:active {
                         opacity: 1;
                     }
                 }
 
-                .wpzoom-blocks_portfolio-block_item-author a::before {
-                    content: '\f110';
-                }
-
-                .wpzoom-blocks_portfolio-block_item-date a::before {
-                    content: '\f508';
-                }
             }
 
             .wpzoom-blocks_portfolio-block_item-content {

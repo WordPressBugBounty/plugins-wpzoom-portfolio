@@ -1101,7 +1101,7 @@ class WPZOOM_Blocks_Portfolio {
 						$author_title = esc_attr( sprintf( __( 'Posts by %s', 'wpzoom-portfolio' ), $author_name ) );
 
 						// Add the author to the output
-						$output .= "<cite class='{$class}_item-author'><a href='$author_url' title='$author_title' rel='author'>$author_name</a></cite>";
+						$output .= "<cite class='{$class}_item-author'>" . esc_html_x( 'by', 'before the portfolio item author name', 'wpzoom-portfolio' ) . " <a href='$author_url' title='$author_title' rel='author'>$author_name</a></cite>";
 					}
 
 					// If the date should be shown...
@@ -1113,7 +1113,7 @@ class WPZOOM_Blocks_Portfolio {
 						$date_title = esc_attr( sprintf( __( 'Posted on %s', 'wpzoom-portfolio' ), $date ) );
 
 						// Add the date to the output
-						$output .= "<time datetime='$datetime' class='{$class}_item-date'><a href='$date_url' title='$date_title'>$date</a></time>";
+						$output .= "<time datetime='$datetime' class='{$class}_item-date'>" . esc_html_x( 'on', 'before the portfolio item date', 'wpzoom-portfolio' ) . " <a href='$date_url' title='$date_title'>$date</a></time>";
 					}
 
 					// Close the portfolio item meta wrapper div if needed
