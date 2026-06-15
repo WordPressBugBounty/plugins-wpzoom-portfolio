@@ -728,3 +728,39 @@ $primary_color: #0bb4aa;
         flex-basis: 100%;
     }
 }
+
+// "Make Entire Item Clickable" option (overlay grid + masonry layouts).
+// Stretch the title's permalink anchor to cover the whole card so a click
+// anywhere on the item opens the portfolio post — not just the title. The
+// details overlay is already position:absolute covering the item, so
+// inset:0 on the pseudo-element fills the card.
+//
+// The lightbox icon (image: .popup_image_icon, video: .popup_video_icon)
+// lives OUTSIDE the details overlay and keeps its higher z-index (80), so
+// it stacks above this stretched link and still opens the lightbox.
+.wpzoom-blocks_portfolio-block.entire-item-clickable.layout-grid,
+.wpzoom-blocks_portfolio-block.entire-item-clickable.layout-masonry {
+    .wpzoom-blocks_portfolio-block_item-wrap,
+    .portfolio_item {
+        cursor: pointer;
+    }
+
+    // Stretch the THUMBNAIL's permalink anchor (rel="bookmark") over the
+    // whole card. We deliberately use the thumbnail link, NOT the title
+    // link: on items with a video lightbox, Pro slides the title down with
+    // `transform: translateY()` on hover, and a transformed ancestor would
+    // become the containing block for this pseudo-element — shrinking it to
+    // the title's box (so only the title stayed clickable). The thumbnail
+    // link is never transformed, so the overlay always fills the card.
+    //
+    // z-index sits ABOVE the details overlay (z-index 12 on hover) so a
+    // click on the dimmed overlay navigates, but BELOW the lightbox icon
+    // (.popup_image_icon / .popup_video_icon, z-index 80) so the image /
+    // video lightbox still opens.
+    .wpzoom-blocks_portfolio-block_item-thumbnail a[rel~="bookmark"]::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 70;
+    }
+}

@@ -303,6 +303,10 @@ class WPZOOM_Blocks_Portfolio {
 			'type'    => 'boolean',
 			'default' => false
 		],
+		'entireItemClickable' => [
+			'type'    => 'boolean',
+			'default' => false
+		],
 	];
 
 	/**
@@ -501,6 +505,8 @@ class WPZOOM_Blocks_Portfolio {
 		$readmore_class = $show_read_more ? ' show-readmore' : '';
 		$ajax_load_class = $enable_ajax_load_items ? ' ajax-load-items' : '';
 		$dark_mode_class = $eccentric_dark_mode ? ' dark-mode' : '';
+		$entire_item_clickable = isset( $attr['entireItemClickable'] ) ? boolval( $attr['entireItemClickable'] ) : false;
+		$entire_item_clickable_class = $entire_item_clickable ? ' entire-item-clickable' : '';
 		$category_class = '';
 
 		// Build the category filter buttons, if enabled
@@ -531,7 +537,7 @@ class WPZOOM_Blocks_Portfolio {
 		$class_css_unique = ' ' . $class_unique;
 
 		// Build a string with all the CSS classes
-		$classes = "$class$class_css_unique$lightbox$align$layout_class$columns$post_type_class$extra_class$category_class$ajax_load_class$dark_mode_class";
+		$classes = "$class$class_css_unique$lightbox$align$layout_class$columns$post_type_class$extra_class$category_class$ajax_load_class$dark_mode_class$entire_item_clickable_class";
 
 		// Try to get portfolio items
 		$items_html = $this->items_html( array(

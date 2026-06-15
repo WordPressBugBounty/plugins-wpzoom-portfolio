@@ -5,7 +5,7 @@ Author URI:        https://www.wpzoom.com/
 Requires at least: 6.5
 Requires PHP:      7.4
 Tested up to:      7.0
-Stable tag:        1.4.27
+Stable tag:        1.4.28
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, gallery, projects, image gallery, video portfolio
@@ -30,6 +30,8 @@ Portfolio plugin for WordPress. Create filterable portfolio grids with masonry l
 ✅ **Mobile Responsive** - Portfolio galleries look perfect on all devices
 
 [**View Demo**](https://demo.wpzoom.com/inspiro-lite/portfolio/)
+⭐️  **[View PRO Demo](https://demo.wpzoom.com/portfolio-pro/)** ⭐️
+
 
 ###💪 Want More Power? Try WPZOOM Portfolio PRO
 
@@ -162,6 +164,10 @@ Yes! View the full [Plugin Documentation](https://www.wpzoom.com/documentation/w
 
 
 == Changelog ==
+
+= 1.4.28 =
+* New option: Make Entire Item Clickable
+* Minor fixes
 
 = 1.4.27 =
 * Added Elementor widget to show Portfolio Layouts in Elementor

@@ -170,7 +170,7 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 			lightboxCaption, order, orderBy, readMoreLabel, showAuthor, showCategoryFilter, enableAjaxLoading, showDate,
 			showExcerpt, showReadMore, showThumbnail, showViewAll, source, thumbnailSize, viewAllLabel, viewAllLink, primaryColor, secondaryColor, filterActiveColor, filterAlignment, filterFontSize, filterFontFamily, filterTextTransform, filterLetterSpacing, filterFontWeight, postTitleFontSize, postTitleFontSizeMobile,
 			postTitleTextTransform, postTitleLetterSpacing, postTitleFontFamily, postTitleFontWeight, postTitleLineHeight, postTitleColor, postHoverTitleColor, btnTextColor, btnHoverTextColor, btnBgColor, btnHoverBgColor, btnFontFamily, btnFontSize, btnTextTransform, btnLetterSpacing, btnBorder, btnBorderStyle, btnBorderWidth,
-			btnBorderColor, btnHoverBorderColor, btnBorderRadius, itemBorderRadius, showTitle, hideTitleOnHover, alwaysPlayBackgroundVideo, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode } = attributes;
+			btnBorderColor, btnHoverBorderColor, btnBorderRadius, itemBorderRadius, showTitle, hideTitleOnHover, alwaysPlayBackgroundVideo, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode, entireItemClickable } = attributes;
 
 	const post_type = wp.data.select( 'core/editor' ).getCurrentPostType();
 	const post_id   = wp.data.select( 'core/editor' ).getCurrentPost().id;
@@ -558,6 +558,14 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 									label={ __( 'Show Lightbox Caption', 'wpzoom-portfolio' ) }
 									checked={ lightboxCaption }
 									onChange={ ( value ) => setAttributes( { lightboxCaption: value } ) }
+								/>
+							}
+							{ ( 'grid' === layout || 'masonry' === layout ) &&
+								<ToggleControl
+									label={ __( 'Make Entire Item Clickable', 'wpzoom-portfolio' ) }
+									help={ __( 'Link the whole item to the portfolio post, so a click anywhere on it opens the post. The lightbox icon still opens the lightbox.', 'wpzoom-portfolio' ) }
+									checked={ entireItemClickable }
+									onChange={ ( value ) => setAttributes( { entireItemClickable: value } ) }
 								/>
 							}
 						</PanelBody>
