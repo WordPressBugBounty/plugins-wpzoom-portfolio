@@ -129,6 +129,34 @@
             $(this).find('.portfolio_item .portfolio-block-popup-video').magnificPopupCallbackforPortfolioBlock();
         });
 
+        /**
+         * "Make Entire Item Clickable" → "Open Lightbox" action.
+         *
+         * Magnific Popup is bound directly to the lightbox icon anchors
+         * (.portfolio-block-popup-video in the free plugin,
+         * .portfolio-pro-popup-video in Pro). When a block opts into the
+         * lightbox action, forward a click anywhere on the item to that
+         * anchor so the whole card opens the image (free) or video (Pro)
+         * lightbox. Delegated on document so it also covers items added
+         * later via Load More / category filtering. This script is always
+         * enqueued (even when Pro is active), so a single handler here
+         * covers both plugins.
+         */
+        $document.on('click', '.entire-item-action-lightbox .portfolio_item', function( e ) {
+            // Clicked the lightbox icon itself — let Magnific Popup handle it.
+            if ( $( e.target ).closest('.portfolio-block-popup-video, .portfolio-pro-popup-video').length ) {
+                return;
+            }
+            var $lightbox = $(this).find('.portfolio-block-popup-video, .portfolio-pro-popup-video').first();
+            // No lightbox on this item (e.g. lightbox disabled) — fall back
+            // to the item's default link behaviour.
+            if ( ! $lightbox.length ) {
+                return;
+            }
+            e.preventDefault();
+            $lightbox.trigger('click');
+        });
+
 		/**
 		 * Portfolio Block Filter click.
 		 */

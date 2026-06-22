@@ -170,7 +170,7 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 			lightboxCaption, order, orderBy, readMoreLabel, showAuthor, showCategoryFilter, enableAjaxLoading, showDate,
 			showExcerpt, showReadMore, showThumbnail, showViewAll, source, thumbnailSize, viewAllLabel, viewAllLink, primaryColor, secondaryColor, filterActiveColor, filterAlignment, filterFontSize, filterFontFamily, filterTextTransform, filterLetterSpacing, filterFontWeight, postTitleFontSize, postTitleFontSizeMobile,
 			postTitleTextTransform, postTitleLetterSpacing, postTitleFontFamily, postTitleFontWeight, postTitleLineHeight, postTitleColor, postHoverTitleColor, btnTextColor, btnHoverTextColor, btnBgColor, btnHoverBgColor, btnFontFamily, btnFontSize, btnTextTransform, btnLetterSpacing, btnBorder, btnBorderStyle, btnBorderWidth,
-			btnBorderColor, btnHoverBorderColor, btnBorderRadius, itemBorderRadius, showTitle, hideTitleOnHover, alwaysPlayBackgroundVideo, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode, entireItemClickable } = attributes;
+			btnBorderColor, btnHoverBorderColor, btnBorderRadius, itemBorderRadius, showTitle, hideTitleOnHover, alwaysPlayBackgroundVideo, layoutBgOpacity, layoutBgOpacityHover, showCategory, eccentricDarkMode, entireItemClickable, entireItemAction } = attributes;
 
 	const post_type = wp.data.select( 'core/editor' ).getCurrentPostType();
 	const post_id   = wp.data.select( 'core/editor' ).getCurrentPost().id;
@@ -563,9 +563,21 @@ function PortfolioEdit( { attributes, setAttributes } ) {
 							{ ( 'grid' === layout || 'masonry' === layout ) &&
 								<ToggleControl
 									label={ __( 'Make Entire Item Clickable', 'wpzoom-portfolio' ) }
-									help={ __( 'Link the whole item to the portfolio post, so a click anywhere on it opens the post. The lightbox icon still opens the lightbox.', 'wpzoom-portfolio' ) }
+									help={ __( 'Make a click anywhere on the item trigger an action (set below), instead of only on the title.', 'wpzoom-portfolio' ) }
 									checked={ entireItemClickable }
 									onChange={ ( value ) => setAttributes( { entireItemClickable: value } ) }
+								/>
+							}
+							{ entireItemClickable && lightbox && ( 'grid' === layout || 'masonry' === layout ) &&
+								<SelectControl
+									label={ __( 'On Item Click', 'wpzoom-portfolio' ) }
+									value={ entireItemAction }
+									options={ [
+										{ label: __( 'Open Single Portfolio Page', 'wpzoom-portfolio' ), value: 'link' },
+										{ label: __( 'Open Lightbox', 'wpzoom-portfolio' ), value: 'lightbox' },
+									] }
+									help={ __( 'Choose what happens when clicking anywhere on the item.', 'wpzoom-portfolio' ) }
+									onChange={ ( value ) => setAttributes( { entireItemAction: value } ) }
 								/>
 							}
 						</PanelBody>

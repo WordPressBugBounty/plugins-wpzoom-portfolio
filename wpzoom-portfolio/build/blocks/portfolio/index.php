@@ -307,6 +307,10 @@ class WPZOOM_Blocks_Portfolio {
 			'type'    => 'boolean',
 			'default' => false
 		],
+		'entireItemAction' => [
+			'type'    => 'string',
+			'default' => 'link'
+		],
 	];
 
 	/**
@@ -506,7 +510,11 @@ class WPZOOM_Blocks_Portfolio {
 		$ajax_load_class = $enable_ajax_load_items ? ' ajax-load-items' : '';
 		$dark_mode_class = $eccentric_dark_mode ? ' dark-mode' : '';
 		$entire_item_clickable = isset( $attr['entireItemClickable'] ) ? boolval( $attr['entireItemClickable'] ) : false;
-		$entire_item_clickable_class = $entire_item_clickable ? ' entire-item-clickable' : '';
+		$entire_item_action = isset( $attr['entireItemAction'] ) ? $attr['entireItemAction'] : 'link';
+		// The lightbox action only makes sense when the lightbox itself is on;
+		// otherwise there is no trigger, so fall back to the default link.
+		$entire_item_lightbox_enabled = isset( $attr['lightbox'] ) ? boolval( $attr['lightbox'] ) : true;
+		$entire_item_clickable_class = $entire_item_clickable ? ' entire-item-clickable' . ( 'lightbox' === $entire_item_action && $entire_item_lightbox_enabled ? ' entire-item-action-lightbox' : '' ) : '';
 		$category_class = '';
 
 		// Build the category filter buttons, if enabled

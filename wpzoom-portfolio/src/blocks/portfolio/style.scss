@@ -744,19 +744,26 @@ $primary_color: #0bb4aa;
     .portfolio_item {
         cursor: pointer;
     }
+}
 
-    // Stretch the THUMBNAIL's permalink anchor (rel="bookmark") over the
-    // whole card. We deliberately use the thumbnail link, NOT the title
-    // link: on items with a video lightbox, Pro slides the title down with
-    // `transform: translateY()` on hover, and a transformed ancestor would
-    // become the containing block for this pseudo-element — shrinking it to
-    // the title's box (so only the title stayed clickable). The thumbnail
-    // link is never transformed, so the overlay always fills the card.
-    //
-    // z-index sits ABOVE the details overlay (z-index 12 on hover) so a
-    // click on the dimmed overlay navigates, but BELOW the lightbox icon
-    // (.popup_image_icon / .popup_video_icon, z-index 80) so the image /
-    // video lightbox still opens.
+// "Make Entire Item Clickable" with the default action (open the single
+// portfolio page). Stretch the THUMBNAIL's permalink anchor (rel="bookmark")
+// over the whole card. We deliberately use the thumbnail link, NOT the title
+// link: on items with a video lightbox, Pro slides the title down with
+// `transform: translateY()` on hover, and a transformed ancestor would
+// become the containing block for this pseudo-element — shrinking it to the
+// title's box (so only the title stayed clickable). The thumbnail link is
+// never transformed, so the overlay always fills the card.
+//
+// z-index sits ABOVE the details overlay (z-index 12 on hover) so a click on
+// the dimmed overlay navigates, but BELOW the lightbox icon (.popup_image_icon
+// / .popup_video_icon, z-index 80) so the lightbox icon still opens it.
+//
+// Skipped when the action is "lightbox" (.entire-item-action-lightbox): there
+// the whole card opens the lightbox instead, handled in JS — no permalink
+// overlay, so clicks aren't swallowed before the JS handler runs.
+.wpzoom-blocks_portfolio-block.entire-item-clickable.layout-grid:not(.entire-item-action-lightbox),
+.wpzoom-blocks_portfolio-block.entire-item-clickable.layout-masonry:not(.entire-item-action-lightbox) {
     .wpzoom-blocks_portfolio-block_item-thumbnail a[rel~="bookmark"]::after {
         content: '';
         position: absolute;
