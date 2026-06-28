@@ -987,7 +987,13 @@ class WPZOOM_Blocks_Portfolio {
 			);
 		}
 
-		$show_lightbox_image_caption = isset( $args[ 'lightbox_caption' ] ) ? $args[ 'lightbox_caption' ] : true;
+		// Normalize to a strict boolean. This value is concatenated into the
+		// data-show-caption HTML attribute below; it must never carry an
+		// attacker-supplied string (the load_more_items AJAX action exposes
+		// $args['lightbox_caption'] to unauthenticated input). Casting here,
+		// combined with esc_attr() at the sink, prevents reflected XSS while
+		// preserving the legitimate "1"/"" output the frontend JS expects.
+		$show_lightbox_image_caption = isset( $args[ 'lightbox_caption' ] ) ? (bool) $args[ 'lightbox_caption' ] : true;
 
 		// Perform the query to get the desired portfolio items
 		$query = new WP_Query( $params );
@@ -1067,7 +1073,7 @@ class WPZOOM_Blocks_Portfolio {
 							<a href='$permalink' title='$title_attr' rel='bookmark'>$thumbnail</a>
 						</div>";
 						
-					$output .= '<div class="portfolio-block-entry-thumbnail-popover-content" data-show-caption="' . $show_lightbox_image_caption . '">';
+					$output .= '<div class="portfolio-block-entry-thumbnail-popover-content" data-show-caption="' . esc_attr( $show_lightbox_image_caption ? '1' : '' ) . '">';
 
 					if( $args[ 'lightbox' ] ) {
 						// Add the lightbox icon
