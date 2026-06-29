@@ -455,6 +455,10 @@ class WPZOOM_Blocks_Portfolio {
 
 		// Determine where the portfolio items should come from
 		$source = isset( $attr[ 'source' ] ) && ! empty( $attr[ 'source' ] ) ? $attr[ 'source' ] : 'portfolio_item';
+		// Only allow the supported post types as a source.
+		if ( ! in_array( $source, array( 'post', 'portfolio_item' ), true ) ) {
+			$source = 'portfolio_item';
+		}
 		if ( 'portfolio_item' == $source && ! post_type_exists( 'portfolio_item' ) ) {
 			$source = 'post';
 		}
@@ -890,10 +894,10 @@ class WPZOOM_Blocks_Portfolio {
 
 		// Return the final output
 		return sprintf(
-			'<div %s data-offset="%s" data-load-more=\'%s\'>%s<ul class="%s_items-list">%s<li class="wpzoom-preloader-container">%s</li></ul>%s</div><!--.%s-->%s',
+			'<div %s data-offset="%s" data-load-more="%s">%s<ul class="%s_items-list">%s<li class="wpzoom-preloader-container">%s</li></ul>%s</div><!--.%s-->%s',
 			get_block_wrapper_attributes( array( 'class' => $classes ) ),
 			$offset,
-			$data_load_more,
+			esc_attr( $data_load_more ),
 			$cats_filter,
 			$class,
 			$output,
