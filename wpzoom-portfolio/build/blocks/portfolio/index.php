@@ -303,6 +303,12 @@ class WPZOOM_Blocks_Portfolio {
 			'type'    => 'boolean',
 			'default' => false
 		],
+		// "media" source only: when "Show Title" is on, reveal the title only
+		// on hover (grid/masonry) instead of keeping it permanently visible.
+		'showTitleOnHover' => [
+			'type'    => 'boolean',
+			'default' => false
+		],
 		'entireItemClickable' => [
 			'type'    => 'boolean',
 			'default' => false
@@ -310,6 +316,21 @@ class WPZOOM_Blocks_Portfolio {
 		'entireItemAction' => [
 			'type'    => 'string',
 			'default' => 'link'
+		],
+		// Static images used when the "Portfolio Items Source" is set to "media".
+		// Each item: { id, url, fullUrl, alt, title, caption }.
+		'mediaImages' => [
+			'type'    => 'array',
+			'default' => [],
+			'items'   => [ 'type' => 'object' ]
+		],
+		// Static gallery only: a uniform aspect ratio applied to every image
+		// of the "media" source. Empty means "Original" — each image keeps its
+		// own proportions. Validated against a whitelist before it is emitted
+		// as CSS in render().
+		'mediaAspectRatio' => [
+			'type'    => 'string',
+			'default' => ''
 		],
 	];
 
@@ -455,8 +476,11 @@ class WPZOOM_Blocks_Portfolio {
 
 		// Determine where the portfolio items should come from
 		$source = isset( $attr[ 'source' ] ) && ! empty( $attr[ 'source' ] ) ? $attr[ 'source' ] : 'portfolio_item';
-		// Only allow the supported post types as a source.
-		if ( ! in_array( $source, array( 'post', 'portfolio_item' ), true ) ) {
+		// Only allow the supported sources. 'post' and 'portfolio_item' are post
+		// types passed straight to WP_Query further down, so they must stay on a
+		// strict whitelist; 'media' is the static gallery, which is rendered from
+		// the mediaImages attribute and never reaches the query.
+		if ( ! in_array( $source, array( 'post', 'portfolio_item', 'media' ), true ) ) {
 			$source = 'portfolio_item';
 		}
 		if ( 'portfolio_item' == $source && ! post_type_exists( 'portfolio_item' ) ) {
@@ -515,6 +539,12 @@ class WPZOOM_Blocks_Portfolio {
 		$dark_mode_class = $eccentric_dark_mode ? ' dark-mode' : '';
 		$entire_item_clickable = isset( $attr['entireItemClickable'] ) ? boolval( $attr['entireItemClickable'] ) : false;
 		$entire_item_action = isset( $attr['entireItemAction'] ) ? $attr['entireItemAction'] : 'link';
+		// Static images have no single-item page to link to, so the only
+		// meaningful "entire item" action for the media source is the
+		// lightbox — force it regardless of the stored value.
+		if ( 'media' === $source ) {
+			$entire_item_action = 'lightbox';
+		}
 		// The lightbox action only makes sense when the lightbox itself is on;
 		// otherwise there is no trigger, so fall back to the default link.
 		$entire_item_lightbox_enabled = isset( $attr['lightbox'] ) ? boolval( $attr['lightbox'] ) : true;
@@ -540,7 +570,10 @@ class WPZOOM_Blocks_Portfolio {
 		// Build the View All button, if enabled
 		$view_all_label = isset( $attr[ 'viewAllLabel' ] ) && ! empty( $attr[ 'viewAllLabel' ] ) ? $attr[ 'viewAllLabel' ] : esc_html__( 'View All', 'wpzoom-portfolio' );
 		$view_all_link = esc_url( ! empty( $attr[ 'viewAllLink' ] ) ? $attr[ 'viewAllLink' ] : site_url( '/portfolio/' ) );
-		$show_view_all = isset( $attr[ 'showViewAll' ] ) ? $attr[ 'showViewAll' ] : true;
+		// Static images have no archive to link to, so never show "View All"
+		// for the media source — even if it was enabled under a posts source
+		// before switching.
+		$show_view_all = ( isset( $attr[ 'showViewAll' ] ) ? $attr[ 'showViewAll' ] : true ) && 'media' !== $source;
 		$view_all = $show_view_all ? '<div class="' . $class . '_view-all">
 			<a href="' . $view_all_link . '" title="' . esc_attr( $view_all_label ) . '" class="wpz-portfolio-button__link">' . $view_all_label . '</a>
 		</div>' : '';
@@ -552,26 +585,41 @@ class WPZOOM_Blocks_Portfolio {
 		$classes = "$class$class_css_unique$lightbox$align$layout_class$columns$post_type_class$extra_class$category_class$ajax_load_class$dark_mode_class$entire_item_clickable_class";
 
 		// Try to get portfolio items
-		$items_html = $this->items_html( array(
-			'categories'            => $categories,
-			'class'                 => 'wpzoom-blocks_portfolio-block',
-			'layout'                => $layout,
-			'lightbox'              => $use_lightbox,
-			'lightbox_caption'      => $lightbox_caption,
-			'order'                 => $order,
-			'order_by'              => $order_by,
-			'per_page'              => $per_page,
-			'read_more_label'       => $read_more_label,
-			'show_author'           => $show_author,
-			'show_background_video' => $show_video,
-			'show_date'             => $show_date,
-			'show_excerpt'          => $show_excerpt,
-			'show_read_more'        => $show_read_more,
-			'show_title'            => $show_title,
-			'show_thumbnail'        => $show_thumbnail,
-			'source'                => $source,
-			'thumbnail_size'        => $thumbnail_size
-		) );
+		if ( 'media' === $source ) {
+			// Static images chosen from the Media Library instead of a posts query.
+			$items_html = $this->media_items_html( array(
+				'images'           => isset( $attr['mediaImages'] ) && is_array( $attr['mediaImages'] ) ? $attr['mediaImages'] : array(),
+				'class'            => 'wpzoom-blocks_portfolio-block',
+				'layout'           => $layout,
+				'lightbox'         => $use_lightbox,
+				'lightbox_caption' => $lightbox_caption,
+				'show_title'       => $show_title,
+				'title_on_hover'   => isset( $attr['showTitleOnHover'] ) ? boolval( $attr['showTitleOnHover'] ) : false,
+				'show_thumbnail'   => $show_thumbnail,
+				'thumbnail_size'   => $thumbnail_size
+			) );
+		} else {
+			$items_html = $this->items_html( array(
+				'categories'            => $categories,
+				'class'                 => 'wpzoom-blocks_portfolio-block',
+				'layout'                => $layout,
+				'lightbox'              => $use_lightbox,
+				'lightbox_caption'      => $lightbox_caption,
+				'order'                 => $order,
+				'order_by'              => $order_by,
+				'per_page'              => $per_page,
+				'read_more_label'       => $read_more_label,
+				'show_author'           => $show_author,
+				'show_background_video' => $show_video,
+				'show_date'             => $show_date,
+				'show_excerpt'          => $show_excerpt,
+				'show_read_more'        => $show_read_more,
+				'show_title'            => $show_title,
+				'show_thumbnail'        => $show_thumbnail,
+				'source'                => $source,
+				'thumbnail_size'        => $thumbnail_size
+			) );
+		}
 
 		// Show more button
 		$show_more = $this->result_pages > 1 ? '<div class="' . $class . '_show-more">
@@ -754,6 +802,25 @@ class WPZOOM_Blocks_Portfolio {
 				'{border-radius:' . $radius_px . ';}';
 		}
 
+		// Static gallery only: force every image to the same aspect ratio.
+		// The rule targets the <img> itself rather than its .item-thumbnail
+		// container — the container is sized by its content here, so giving
+		// *it* the ratio would leave the image overflowing at its natural
+		// height. The image already carries width:100% from the base CSS, so
+		// aspect-ratio + object-fit:cover is enough to crop it consistently.
+		// Masonry is excluded on purpose: a uniform ratio there would flatten
+		// the staggered columns into a plain grid.
+		$media_aspect_ratio = '';
+		if ( 'media' === $source && in_array( $layout, array( 'list', 'grid' ), true ) ) {
+			$ratio = isset( $attr['mediaAspectRatio'] ) ? (string) $attr['mediaAspectRatio'] : '';
+			// Whitelist — the value is interpolated straight into a declaration.
+			if ( in_array( $ratio, array( '1/1', '4/3', '3/4', '3/2', '2/3', '16/9', '9/16' ), true ) ) {
+				$media_aspect_ratio =
+					'.wpzoom-blocks_portfolio-block.' . $class_unique . ' .wpzoom-blocks_portfolio-block_item-thumbnail img' .
+					'{aspect-ratio:' . $ratio . ';height:auto;object-fit:cover;object-position:center;}';
+			}
+		}
+
 		if( isset( $attr['btnHoverBgColor'] ) || isset( $attr['btnHoverTextColor'] ) || isset( $attr['btnHoverBorderColor'] ) ) {
 
 			$btnHoverTextColor   = isset( $attr['btnHoverTextColor'] ) ? 'color:' . self::sanitize_css_value( $attr['btnHoverTextColor'] ) . ' !important;' : '';
@@ -845,6 +912,7 @@ class WPZOOM_Blocks_Portfolio {
 			$masonry_columns_gap .
 			$masonry_responsive_css .
 			$item_border_radius .
+			$media_aspect_ratio .
 			$layout_style .
 			$mobile_style
 		);
@@ -1083,13 +1151,7 @@ class WPZOOM_Blocks_Portfolio {
 						// Add the lightbox icon
 						$output .= '<a class="mfp-image portfolio-block-popup-video popup_image_icon" href="'. $post_thumbnail_url .'" aria-label="' . $title_attr . '">';
 						$output .= "<span class='{$class}_lightbox_icon'>
-										<svg enable-background='new 0 0 32 32' id='Layer_4' version='1.1' viewBox='0 0 32 32' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
-											<g>
-												<rect fill='none' height='30' stroke='#fff' stroke-linejoin='round' stroke-miterlimit='10' stroke-width='2' transform='matrix(6.123234e-17 -1 1 6.123234e-17 0 32)' width='30' x='1' y='1'/>
-													<line fill='none' stroke='#fff' stroke-linejoin='round' stroke-miterlimit='10' stroke-width='2' x1='27' x2='5' y1='5' y2='27'/><polyline fill='none' points='16,27 5,27 5,16' stroke='#fff' stroke-linejoin='round' stroke-miterlimit='10' stroke-width='2'/>
-													<polyline fill='none' points='16,5 27,5 27,16' stroke='#fff' stroke-linejoin='round' stroke-miterlimit='10' stroke-width='2'/>
-											</g>
-										</svg>
+										<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'><path d='M140-140v-300h60v198.23L718.23-760H520v-60h300v300h-60v-198.23L241.77-200H440v60H140Z'/></svg>
 									</span>";
 						$output .= '</a>';
 					};
@@ -1188,6 +1250,165 @@ class WPZOOM_Blocks_Portfolio {
 		$this->posts_ids = $posts_ids;
 
 		// Return the final HTML string
+		return $output;
+	}
+
+	/**
+	 * Returns the HTML string for a set of static images chosen from the Media
+	 * Library (the "media" Portfolio Items Source).
+	 *
+	 * Deliberately emits the SAME item markup as items_html() so the existing
+	 * front-end JS (magnific-popup lightbox gallery, masonry, fade-in) and the
+	 * existing item/overlay/masonry CSS apply with no extra code.
+	 *
+	 * @access public
+	 * @param  array  $args The arguments used to modify the output.
+	 * @return string
+	 * @since  1.4.28
+	 */
+	public function media_items_html( $args = null ) {
+		// Setup some default values
+		$defaults = array(
+			'images'           => array(),
+			'class'            => 'wpzoom-blocks_portfolio-block',
+			'layout'           => 'grid',
+			'lightbox'         => true,
+			'lightbox_caption' => false,
+			'show_title'       => false,
+			'title_on_hover'   => false,
+			'show_thumbnail'   => true,
+			'thumbnail_size'   => 'large',
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		// Static images form a single "page" — there is no posts query, so no
+		// AJAX category loading and no Load More. Resetting these mirrors what
+		// items_html() caches off WP_Query and keeps the render()/JS plumbing
+		// from showing a Load More button.
+		$images             = is_array( $args['images'] ) ? $args['images'] : array();
+		$this->result_pages = 1;
+		$this->all_posts    = count( $images );
+		$this->posts_ids    = array();
+
+		if ( empty( $images ) ) {
+			return '';
+		}
+
+		// Restrict the class to CSS-class-safe characters (same guard as items_html()).
+		$class = isset( $args['class'] ) && is_string( $args['class'] ) && preg_match( '/^[A-Za-z0-9_\-]+$/', $args['class'] )
+			? $args['class']
+			: $defaults['class'];
+
+		$thumb_size = ! empty( $args['thumbnail_size'] ) ? $args['thumbnail_size'] : 'large';
+		if ( 'masonry' === $args['layout'] ) {
+			$thumb_size = 'portfolio_item-masonry';
+		}
+
+		$use_lightbox     = ! empty( $args['lightbox'] );
+		$lightbox_caption = ! empty( $args['lightbox_caption'] );
+		$show_title       = ! empty( $args['show_title'] );
+		$title_on_hover   = ! empty( $args['title_on_hover'] );
+
+		// The expand/lightbox corner icon — identical to the one items_html() uses.
+		$lightbox_icon = "<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#fff'><path d='M140-140v-300h60v198.23L718.23-760H520v-60h300v300h-60v-198.23L241.77-200H440v60H140Z'/></svg>";
+
+		$output = '';
+
+		foreach ( $images as $index => $img ) {
+			if ( ! is_array( $img ) ) {
+				continue;
+			}
+
+			$att_id  = isset( $img['id'] ) ? intval( $img['id'] ) : 0;
+			$alt     = isset( $img['alt'] ) ? sanitize_text_field( $img['alt'] ) : '';
+			$caption = isset( $img['caption'] ) ? (string) $img['caption'] : '';
+			if ( '' === trim( $caption ) ) {
+				$caption = $alt;
+			}
+
+			// The on-item overlay heading uses the image's own title (the
+			// attachment post title), mirroring how post titles display for the
+			// posts source. Fall back to the live attachment title (for galleries
+			// saved before titles were captured), then the caption/alt so the
+			// heading is never empty when "Show Title" is enabled.
+			$title = isset( $img['title'] ) ? (string) $img['title'] : '';
+			if ( '' === trim( $title ) && $att_id > 0 ) {
+				$title = get_the_title( $att_id );
+			}
+			if ( '' === trim( $title ) ) {
+				$title = $caption;
+			}
+
+			// Resolve the thumbnail markup and the full-size URL. Prefer the
+			// attachment (gives srcset/sizes); fall back to the stored URL for
+			// external images added by URL in the placeholder.
+			$thumbnail = '';
+			$full      = '';
+			if ( $att_id > 0 ) {
+				$thumbnail = wp_get_attachment_image( $att_id, $thumb_size, false, array( 'alt' => $alt ) );
+				$full      = wp_get_attachment_image_url( $att_id, 'full' );
+			}
+			if ( empty( $thumbnail ) ) {
+				$src = isset( $img['url'] ) ? $img['url'] : ( isset( $img['fullUrl'] ) ? $img['fullUrl'] : '' );
+				if ( empty( $src ) ) {
+					continue;
+				}
+				$thumbnail = '<img src="' . esc_url( $src ) . '" alt="' . esc_attr( $alt ) . '" loading="lazy" />';
+			}
+			if ( empty( $full ) ) {
+				$full = isset( $img['fullUrl'] ) ? $img['fullUrl'] : ( isset( $img['url'] ) ? $img['url'] : '' );
+			}
+
+			$full         = esc_url( $full );
+			$caption_attr = esc_attr( wp_strip_all_tags( $caption ) );
+			$caption_html = wp_kses_post( $caption );
+			$has_caption  = '' !== trim( wp_strip_all_tags( $caption ) );
+			$title_html   = wp_kses_post( $title );
+			$has_title    = '' !== trim( wp_strip_all_tags( $title ) );
+			$item_id      = $att_id > 0 ? $att_id : ( $index + 1 );
+
+			$output .= "<li class='{$class}_item {$class}_item-{$item_id} has-cover' data-category='all'>";
+			$output .= "<article class='{$class}_item-wrap portfolio_item'>";
+			$output .= "<div class='{$class}_item-thumbnail'>";
+
+			// The image links to its full-size file; the corner lightbox icon
+			// (rendered into the popover, mirroring items_html()) opens the
+			// magnific gallery. This keeps the existing hover/overlay CSS and
+			// the JS lightbox binding working unchanged.
+			$output .= "<div class='{$class}_item-media'>";
+			$output .= "<a href='{$full}' title='{$caption_attr}'>{$thumbnail}</a>";
+			$output .= '</div>';
+
+			if ( $use_lightbox ) {
+				$output .= '<div class="portfolio-block-entry-thumbnail-popover-content" data-show-caption="' . ( $lightbox_caption ? '1' : '' ) . '">';
+				$output .= '<a class="mfp-image portfolio-block-popup-video popup_image_icon" href="' . $full . '" aria-label="' . $caption_attr . '">';
+				$output .= "<span class='{$class}_lightbox_icon'>" . $lightbox_icon . '</span>';
+				$output .= '</a>';
+				$output .= '<span class="portfolio_item-title" style="display: none;"><a href="' . $full . '">' . ( $has_caption ? $caption_html : esc_html( $alt ) ) . '</a></span>';
+				$output .= '</div>';
+			}
+
+			$output .= '</div>'; // _item-thumbnail
+
+			// Details panel: the overlay is always rendered (it provides the
+			// grid/masonry hover tint). The title heading inside it is rendered
+			// only when "Show Title" is on; the show-title class keeps the title
+			// permanently visible, while "Show Title on Hover" drops that class so
+			// the title reveals only on hover. "Show Title" off renders no heading.
+			$details_class = ( $show_title && ! $title_on_hover ) ? "{$class}_item-details show-title" : "{$class}_item-details";
+			$output .= "<div class='{$details_class}'>";
+			if ( $show_title && $has_title ) {
+				$output .= "<h3 class='{$class}_item-title'><a href='{$full}'>{$title_html}</a></h3>";
+			}
+			$output .= '</div>';
+
+			$output .= '</article>';
+			$output .= '</li>';
+
+			$this->posts_ids[] = $item_id;
+		}
+
 		return $output;
 	}
 

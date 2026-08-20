@@ -1,4 +1,9 @@
 import { updateCategory } from '@wordpress/blocks';
+import { addFilter } from '@wordpress/hooks';
+import { Fragment } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+import { Button } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 updateCategory( 'wpzoom-blocks', {
 	icon: (
@@ -24,3 +29,65 @@ updateCategory( 'wpzoom-blocks', {
 		</svg>
 	)
 } );
+
+// Registers the "Album Gallery" PRO upsell under the Featured Image panel on
+// the portfolio item editor (no-op when Pro is active).
+
+const POST_TYPE = 'portfolio_item';
+const PRO_URL =
+	'https://www.wpzoom.com/plugins/portfolio-pro/?utm_source=wpadmin&utm_medium=portfolio-free&utm_campaign=album-gallery-free';
+
+const withAlbumGalleryUpsell = ( OriginalComponent ) => ( props ) => {
+	const { postType, isPro } = useSelect(
+		( select ) => ( {
+			postType: select( 'core/editor' ).getCurrentPostType(),
+			isPro: !! (
+				window.wpzoomPortfolioBlock && window.wpzoomPortfolioBlock.is_pro
+			),
+		} ),
+		[]
+	);
+
+	return (
+		<Fragment>
+			<OriginalComponent { ...props } />
+			{ POST_TYPE === postType && ! isPro && (
+				<div
+					className="wpzoom-portfolio-album-upsell"
+					style={ {
+						border: '1px solid var(--wp-admin-theme-color)',
+						background:
+							'color-mix(in srgb, var(--wp-admin-theme-color) 4%, #fff)',
+						borderRadius: '2px',
+						padding: '10px',
+					} }
+				>
+					<h4 style={ { margin: '0 0 6px 0'}}>
+						{ __( 'Album Gallery', 'wpzoom-portfolio' ) }
+					</h4>
+					<p>
+						{ __(
+							'Show multiple images in a lightbox gallery for this item.',
+							'wpzoom-portfolio'
+						) }
+					</p>
+					<Button
+						variant="primary"
+						size="compact"
+						href={ PRO_URL }
+						target="_blank"
+						rel="noreferrer"
+					>
+						{ __( 'Upgrade to PRO', 'wpzoom-portfolio' ) }
+					</Button>
+				</div>
+			) }
+		</Fragment>
+	);
+};
+
+addFilter(
+	'editor.PostFeaturedImage',
+	'wpzoom-portfolio/album-gallery-upsell',
+	withAlbumGalleryUpsell
+);

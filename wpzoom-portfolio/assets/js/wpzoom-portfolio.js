@@ -143,11 +143,18 @@
          * covers both plugins.
          */
         $document.on('click', '.entire-item-action-lightbox .portfolio_item', function( e ) {
-            // Clicked the lightbox icon itself — let Magnific Popup handle it.
-            if ( $( e.target ).closest('.portfolio-block-popup-video, .portfolio-pro-popup-video').length ) {
+            // Clicked a lightbox trigger directly (default image/video icon or
+            // the Pro album button) — let Magnific Popup handle it.
+            if ( $( e.target ).closest('.portfolio-block-popup-video, .portfolio-pro-popup-video, .portfolio-pro-popup-album').length ) {
                 return;
             }
-            var $lightbox = $(this).find('.portfolio-block-popup-video, .portfolio-pro-popup-video').first();
+            // Prefer the album trigger when the item is a Pro album, so the
+            // whole card opens the album gallery rather than the hidden
+            // featured-image link that joins the default lightbox gallery.
+            var $lightbox = $(this).find('.portfolio-pro-popup-album.popup_album_icon').first();
+            if ( ! $lightbox.length ) {
+                $lightbox = $(this).find('.portfolio-block-popup-video, .portfolio-pro-popup-video').first();
+            }
             // No lightbox on this item (e.g. lightbox disabled) — fall back
             // to the item's default link behaviour.
             if ( ! $lightbox.length ) {
