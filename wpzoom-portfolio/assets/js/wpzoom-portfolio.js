@@ -43,12 +43,11 @@
                     vimeo: {
                         index: 'vimeo.com/',
                         id: function(url) {
-                            var m = url.match(/(?:https?:\/\/)?(?:www\.)?(?:player\.)?vimeo\.com\/(?:[a-z]*\/)*([0-9]{6,11})(?:\/([a-zA-Z0-9]+))?/);
-                            if (!m || !m[1]) return null; // If no match, return null
-                            var videoId = m[1];
-                            var hash = m[2] ? 'h=' + m[2] : '';
-                            var params = hash ? '' : '?autoplay=' + 1;
-                            return hash ? videoId + '?' + hash + params : videoId + params;
+                            // Handle vimeo.com/ID, vimeo.com/ID/HASH and player.vimeo.com/video/ID?h=HASH (private links).
+                            var m = url.match(/vimeo\.com\/(?:.*?\/)?(\d+)(?:\/([a-z0-9]+))?/i);
+                            if (!m) return null;
+                            var hash = m[2] || (url.match(/[?&]h=([a-z0-9]+)/i) || [])[1] || '';
+                            return m[1] + '?autoplay=1' + (hash ? '&h=' + hash : '');
                         },
                         src: '//player.vimeo.com/video/%id%'
                     },

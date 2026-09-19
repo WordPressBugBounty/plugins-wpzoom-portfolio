@@ -4,8 +4,8 @@ Donate link:       http://paypal.me/wpzm/10usd
 Author URI:        https://www.wpzoom.com/
 Requires at least: 6.5
 Requires PHP:      7.4
-Tested up to:      7.0
-Stable tag:        1.4.32
+Tested up to:      7.1
+Stable tag:        1.4.33
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, gallery, projects, image gallery, video portfolio
@@ -68,6 +68,10 @@ Create portfolio layouts once and embed them anywhere using shortcodes. Works wi
 
 Choose from portrait, cinema, square, or uncropped aspect ratios to match your design needs.
 
+**🔀 Drag & Drop Reordering**
+
+Arrange your portfolio items in any order with simple drag and drop. No more wrestling with dates or menu order.
+
 ## ⬆️ Upgrade to WPZOOM Portfolio PRO
 
 **Ready for video portfolios and advanced customization?** [WPZOOM Portfolio PRO](https://www.wpzoom.com/plugins/portfolio-pro/) adds powerful features for professional portfolios.
@@ -89,10 +93,6 @@ Create stunning hover effects with video backgrounds. Add motion to your portfol
 **📷 Photo Proofing**
 
 Create private proofing galleries, share them with clients through a secret link, and collect their photo selections for approval — all from your WordPress dashboard.
-
-**🔀 Drag & Drop Reordering**
-
-Arrange your portfolio items in any order with simple drag and drop. No more wrestling with dates or menu order.
 
 **🎨 Color Customization**
 
@@ -120,7 +120,7 @@ Works great with any theme! For the best portfolio experience, check out:
 
 ### 100% GDPR Compliant
 
-This plugin doesn't integrate any Google Fonts or collect any information outside your WordPress installation.
+This plugin doesn't collect any information outside your WordPress installation. Any Google Fonts you select for the portfolio block are downloaded and served locally from your own website — visitors' browsers never connect to Google's servers.
 
 == Installation ==
 
@@ -168,6 +168,9 @@ Yes! View the full [Plugin Documentation](https://www.wpzoom.com/documentation/w
 
 
 == Changelog ==
+
+= 1.4.33 =
+* Fixed: private and unlisted Vimeo videos (links with a privacy hash, e.g. vimeo.com/ID/HASH or player.vimeo.com/video/ID?h=HASH) did not play in the video lightbox because the privacy hash was dropped from the embed URL
 
 = 1.4.32 =
 * New feature: Static Gallery — the Portfolio block now has a "Portfolio Items Source" option, so you can build a gallery straight from images in the Media Library, without creating portfolio posts first.
