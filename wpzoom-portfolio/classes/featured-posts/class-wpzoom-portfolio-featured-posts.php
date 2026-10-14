@@ -68,10 +68,12 @@ if( ! class_exists( 'WPZOOM_Featured_Posts' ) ) {
 		}
 
 		public function add_featured_page_in_menu() {
+			$post_type_object = get_post_type_object( $this->post_type );
+
 			$this->menu_names[ $this->post_type ] = $this->add_featured_page(
 				$this->menu_title,
 				$this->menu_title,
-				'edit_posts',
+				$post_type_object ? $post_type_object->cap->edit_others_posts : 'edit_others_posts',
 				'wpzoom_featured_sorting_menu_' . $this->post_type,
 				array( $this, 'render' )
 			);
@@ -291,6 +293,23 @@ if( ! class_exists( 'WPZOOM_Featured_Posts' ) ) {
 			return $this->get_assets_uri( 'js' ) . $name;
 		}
 
+		/**
+		 * Check that the given ID belongs to an item of this post type
+		 * and that the current user is allowed to edit it.
+		 */
+		public function current_user_can_edit_item( $post_id ) {
+			$post_id = absint( $post_id );
+			$post    = $post_id ? get_post( $post_id ) : null;
+
+			return $post && $post->post_type === $this->post_type && current_user_can( 'edit_post', $post_id );
+		}
+
+		public function current_user_can_reorder() {
+			$post_type_object = get_post_type_object( $this->post_type );
+
+			return $post_type_object && current_user_can( $post_type_object->cap->edit_others_posts );
+		}
+
 		public function set_view_mode() {
 			$sliced = wp_array_slice_assoc( $_POST, array( 'view_mode', 'nonce_set_view_mode' ) );
 
@@ -302,7 +321,7 @@ if( ! class_exists( 'WPZOOM_Featured_Posts' ) ) {
 			);
 
 			if ( wp_verify_nonce( $sliced['nonce_set_view_mode'], $this->prefix_action( 'set_view_mode' ) ) ) {
-				if ( ! empty( $sliced['view_mode'] ) ) {
+				if ( ! empty( $sliced['view_mode'] ) && in_array( $sliced['view_mode'], array( 'list', 'grid' ), true ) ) {
 					update_user_meta( get_current_user_id(), 'wpz_reorder_view_mode', $sliced['view_mode'] );
 
 					$response['success']         = true;
@@ -323,24 +342,32 @@ if( ! class_exists( 'WPZOOM_Featured_Posts' ) ) {
 				),
 			);
 
-			if ( wp_verify_nonce( $sliced['nonce_set_featured'], $this->prefix_action( 'set_featured' ) ) ) {
-				$msg = sprintf( 'The menu_order is set to 0.' );
-				if ( ! empty( $this->featured_metakey ) ) {
-					$msg .= sprintf( 'And the %s metakey is set to 0.', $this->featured_metakey );
-					update_post_meta( $sliced['post_id'], $this->featured_metakey, $sliced['value'] );
-				}
-
-				wp_update_post(
-					array(
-						'ID'         => $sliced['post_id'],
-						'menu_order' => 0,
-						'post_type'  => $this->post_type,
-					)
-				);
-
-				$response['success']         = true;
-				$response['data']['message'] = $msg;
+			if ( ! isset( $sliced['nonce_set_featured'] ) || ! wp_verify_nonce( $sliced['nonce_set_featured'], $this->prefix_action( 'set_featured' ) ) ) {
+				wp_send_json( $response );
 			}
+
+			if ( ! isset( $sliced['post_id'] ) || ! $this->current_user_can_edit_item( $sliced['post_id'] ) ) {
+				$response['data']['message'] = __( 'You are not allowed to edit this item.', 'wpzoom-portfolio' );
+				wp_send_json( $response );
+			}
+
+			$post_id = absint( $sliced['post_id'] );
+
+			$msg = sprintf( 'The menu_order is set to 0.' );
+			if ( ! empty( $this->featured_metakey ) ) {
+				$msg .= sprintf( 'And the %s metakey is set to 0.', $this->featured_metakey );
+				update_post_meta( $post_id, $this->featured_metakey, empty( $sliced['value'] ) ? 0 : 1 );
+			}
+
+			wp_update_post(
+				array(
+					'ID'         => $post_id,
+					'menu_order' => 0,
+				)
+			);
+
+			$response['success']         = true;
+			$response['data']['message'] = $msg;
 
 			wp_send_json( $response );
 		}
@@ -380,16 +407,24 @@ if( ! class_exists( 'WPZOOM_Featured_Posts' ) ) {
 			);
 
 			if (
+				isset( $sliced['nonce_save_order'] ) &&
 				wp_verify_nonce( $sliced['nonce_save_order'], $this->prefix_action( 'save_order' ) ) &&
 				! empty( $sliced['posts'] ) &&
-				is_array( $sliced )
+				is_array( $sliced['posts'] )
 			) {
+				// Validate every item before changing anything.
+				foreach ( $sliced['posts'] as $post ) {
+					if ( ! is_array( $post ) || ! isset( $post['ID'], $post['menu_order'] ) || ! $this->current_user_can_edit_item( $post['ID'] ) ) {
+						$response['data']['message'] = __( 'You are not allowed to edit one or more of these items.', 'wpzoom-portfolio' );
+						wp_send_json( $response );
+					}
+				}
+
 				foreach ( $sliced['posts'] as $post ) {
 					wp_update_post(
 						array(
-							'ID'         => $post['ID'],
-							'menu_order' => $post['menu_order'],
-							'post_type'  => $this->post_type,
+							'ID'         => absint( $post['ID'] ),
+							'menu_order' => intval( $post['menu_order'] ),
 						)
 					);
 				}
@@ -410,7 +445,12 @@ if( ! class_exists( 'WPZOOM_Featured_Posts' ) ) {
 				),
 			);
 
-			if ( wp_verify_nonce( $sliced['nonce_reorder_items'], $this->prefix_action( 'reorder_items' ) ) ) {
+			if ( ! $this->current_user_can_reorder() ) {
+				$response['data']['message'] = __( 'You are not allowed to reorder these items.', 'wpzoom-portfolio' );
+				wp_send_json( $response );
+			}
+
+			if ( isset( $sliced['nonce_reorder_items'] ) && wp_verify_nonce( $sliced['nonce_reorder_items'], $this->prefix_action( 'reorder_items' ) ) ) {
 				$this->update_menu_order_in_posts();
 
 				$response['success']         = true;

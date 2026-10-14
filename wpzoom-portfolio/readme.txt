@@ -5,7 +5,7 @@ Author URI:        https://www.wpzoom.com/
 Requires at least: 6.5
 Requires PHP:      7.4
 Tested up to:      7.1
-Stable tag:        1.4.33
+Stable tag:        1.4.34
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, gallery, projects, image gallery, video portfolio
@@ -168,6 +168,9 @@ Yes! View the full [Plugin Documentation](https://www.wpzoom.com/documentation/w
 
 
 == Changelog ==
+
+= 1.4.34 =
+* Minor bug fix
 
 = 1.4.33 =
 * Fixed: private and unlisted Vimeo videos (links with a privacy hash, e.g. vimeo.com/ID/HASH or player.vimeo.com/video/ID?h=HASH) did not play in the video lightbox because the privacy hash was dropped from the embed URL
