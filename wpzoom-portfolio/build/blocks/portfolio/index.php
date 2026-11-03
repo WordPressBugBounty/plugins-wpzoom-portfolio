@@ -1026,9 +1026,10 @@ class WPZOOM_Blocks_Portfolio {
 			? $args[ 'class' ]
 			: $defaults[ 'class' ];
 
-		// The source of the posts
+		// The source of the posts. This can come from public requests (REST route,
+		// load more), so only the supported post types may reach the query.
 		$source = $args[ 'source' ];
-		if ( 'portfolio_item' == $source && ! post_type_exists( 'portfolio_item' ) ) {
+		if ( ! in_array( $source, array( 'post', 'portfolio_item' ), true ) ) {
 			$source = 'portfolio_item';
 		}
 

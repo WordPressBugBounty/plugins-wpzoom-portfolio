@@ -5,7 +5,7 @@ Author URI:        https://www.wpzoom.com/
 Requires at least: 6.5
 Requires PHP:      7.4
 Tested up to:      7.1
-Stable tag:        1.4.34
+Stable tag:        1.4.36
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              portfolio, gallery, projects, image gallery, video portfolio
@@ -55,6 +55,10 @@ Choose the perfect layout for your portfolio:
 - Grid with Overlay - Clean grid with hover effects
 - Masonry - Pinterest-style varied heights
 - Columns - Traditional multi-column layout
+
+**Portfolio Index Block** - *NEW in 1.4.35*
+
+A numbered list of your projects: hovering a title previews the project's video beside the list, and the play button plays the full video in place. On phones a tapped title opens its project right under it.
 
 **Built-in Lightbox**
 
@@ -168,6 +172,13 @@ Yes! View the full [Plugin Documentation](https://www.wpzoom.com/documentation/w
 
 
 == Changelog ==
+
+= 1.4.36 =
+* Portfolio Index block: the preview no longer jumps back to the first project when the cursor leaves the list for the project panel, and titles crossed on the way to the panel are not previewed (hover intent, as in mega menus). The last hovered project stays in the panel
+
+= 1.4.35 =
+* New block: Portfolio Index — a numbered list of your projects; hovering a title previews the project's video beside the list, clicking keeps it open, and the play button plays the full video (self-hosted, YouTube or Vimeo) in place. On phones and tablets a tapped title opens its project right under it. Uses the plugin's own video fields, or the Inspiro theme's when present
+* Self-hosted videos in the Portfolio Index play in the WordPress video player on themes that support it (Inspiro Premium, Inspiro PRO, Reel); other themes keep the browser's player
 
 = 1.4.34 =
 * Minor bug fix

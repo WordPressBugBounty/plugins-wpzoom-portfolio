@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.34
+ * Version:     1.4.36
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -44,6 +44,24 @@ register_activation_hook( __FILE__, array( $wpzoom_blocks, 'activate' ) );
 
 // Hook the plugin into WordPress
 add_action( 'init', array( $wpzoom_blocks, 'init' ) );
+
+/**
+ * Whether self-hosted videos played by the blocks use the WordPress MediaElement
+ * player (which the theme skins) instead of the browser's own. Themes opt in with
+ * add_theme_support( 'wpzoom-video-player' ); Inspiro does.
+ *
+ * @return bool
+ */
+function wpzoom_portfolio_use_mediaelement_player() {
+	return (bool) apply_filters( 'wpzoom_portfolio_mediaelement_player', current_theme_supports( 'wpzoom-video-player' ) );
+}
+
+add_filter( 'body_class', function ( $classes ) {
+	if ( wpzoom_portfolio_use_mediaelement_player() ) {
+		$classes[] = 'wpz-mediaelement-player';
+	}
+	return $classes;
+} );
 
 /**
  * Class WPZOOM_Blocks
