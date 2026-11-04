@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.36
+ * Version:     1.4.37
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -313,7 +313,8 @@ class WPZOOM_Blocks {
 					$func = 'js' == $ext ? 'wp_register_script' : 'wp_register_style';
 					$url = trailingslashit( 'main' == $slug_ ? $this->main_dir_url : $this->blocks_dir_url . $slug ) . "$name.$ext";
 					$depends = 'js' == $ext ? $asset[ 'dependencies' ] : array();
-					$func( "wpzoom-blocks-$ext-$name-$slug_", $url, $depends, $asset[ 'version' ], ( 'main' != $slug_ && 'js' == $ext ) );
+					// Plugin version, not the asset file's: every release then busts page and CDN caches keyed by ?ver=.
+					$func( "wpzoom-blocks-$ext-$name-$slug_", $url, $depends, WPZOOM_PORTFOLIO_VERSION, ( 'main' != $slug_ && 'js' == $ext ) );
 
 					// If the file in the current iteration is a script...
 					if ( 'js' == $ext && function_exists( 'wp_set_script_translations' ) ) {
