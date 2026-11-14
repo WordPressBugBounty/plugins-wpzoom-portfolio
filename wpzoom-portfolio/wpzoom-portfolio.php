@@ -14,7 +14,7 @@
  * Author:      WPZOOM
  * Author URI:  https://www.wpzoom.com
  * Text Domain: wpzoom-portfolio
- * Version:     1.4.37
+ * Version:     1.4.38
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -548,6 +548,11 @@ if( ! function_exists( 'wpzoom_portfolio_load_files' ) ) {
 
 		//Load Elementor integration (hooks stay inert when Elementor is not active)
 		require_once 'classes/elementor/class-wpzoom-portfolio-elementor.php';
+
+		// Tip on the portfolio list: add items by chatting with AI (WPZOOM AI Connect).
+		if ( is_admin() ) {
+			require_once 'classes/class-wpzoom-portfolio-ai-tip.php';
+		}
 	
 		if( ! wpzoom_theme_has_portfolio() ) {
 			//Load Archive template
